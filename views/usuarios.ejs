@@ -224,6 +224,7 @@
                 $(".eliminar-usuario").click(function(){
                   var aEliminar = this.id;
                   var url = "/users/usuarios/"+aEliminar;
+                  //Faltaria agregar un mensaje de confirmacion. Y que recargue la pagina
                   $.ajax({
                     url: url,
                     type: 'DELETE',
