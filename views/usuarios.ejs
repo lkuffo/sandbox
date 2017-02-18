@@ -99,6 +99,8 @@
                 <th>Correo</th>
                 <th>Carrera</th>
                 <th>Contraseña</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
             </tr>
         </thead>
         <tfoot>
@@ -111,6 +113,8 @@
                 <th>Correo</th>
                 <th>Carrera</th>
                 <th>Contraseña</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
             </tr>
         </tfoot>
         <tbody id="tablaDeUsuarios">
@@ -123,6 +127,8 @@
                 <td>Correo</td>
                 <td>Carrera</td>
                 <td>Contraseña</td>
+                <td>Editar</td>
+                <td>Eliminar</td>
             </tr>
         </tbody>
     </table>
@@ -136,19 +142,37 @@
     <script type="text/javascript" charset="utf-8">
 
         $(document).ready(function() {
-          
+
           $("#tablaDeUsuarios").empty();
             $.get("/users/usuarios", function(data){
                 console.log(data);
                 for (var i = 0; i < data.length; i++){
                     var registro = data[i];
-                    $("#tablaDeUsuarios").append("<tr><td>"+registro.identif+"</td><td>"+registro.tipo_identif+"</td><td>"+registro.nombres+"</td><td>"+registro.apellidos+"</td><td>"+registro.rol+"</td><td>"+registro.correo+"</td><td>"+registro.carrera+"</td><td>"+registro.password+"</td></tr>")
+                    $("#tablaDeUsuarios").append("<tr><td>"+registro.identif+"</td><td>"+registro.tipo_identif+"</td><td>"+registro.nombres+"</td><td>"+registro.apellidos+"</td><td>"+registro.rol+"</td><td>"+registro.correo+"</td><td>"+registro.carrera+"</td><td>"+registro.password+"</td><td><button type='button' class='btn btn-default editar-usuario' id='"+registro.identif+"'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button></td> <td><button type='button' class='btn btn-default eliminar-usuario' id='"+registro.identif+"'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td>"+"</tr>")
                 }
+
+                $(".editar-usuario").click(function(){
+                  alert(this.id);
+                });
+
+                $(".eliminar-usuario").click(function(){
+                  var aEliminar = this.id;
+                  var url = "/users/usuarios/"+aEliminar;
+                  $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function(result){
+                      alert("ELIMINADO!");
+                    }
+                  })
+                });
+
                 $('#example').DataTable();
             });
           
-            
         });
+
+
         
     </script>
   </body>

@@ -13,4 +13,8 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.delete('/:id', function(req,res,next){
+    Usuario.find({identif : req.params.id}).remove().exec();
+});
+
 module.exports = router;
