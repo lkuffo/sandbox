@@ -5,8 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Rutas
 var index = require('./routes/index');
 var users = require('./routes/users');
+var usuarios = require('./routes/usuarios');
 
 var app = express();
 
@@ -22,9 +24,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Rutas
 app.use('/', index);
 app.use('/users', users);
+app.use('/users/usuarios', usuarios);
 
+
+// CSS's Y JS's
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
