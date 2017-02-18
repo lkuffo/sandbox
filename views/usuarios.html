@@ -83,12 +83,19 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-<br>
-<h2> Módulo de Usuarios </h2> 
-<br>
+    <br>
+    <h2> Módulo de Usuarios </h2> 
+    <br>
     <div class="container">
 
-<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+      <button type="button" class="btn btn-default" id="agregarUsuario">
+        <span class="glyphicon glyphicon-plus"></span> Agregar Usuario
+      </button>
+      
+      <br>
+      <br>
+
+      <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Identificación</th>
@@ -118,21 +125,80 @@
             </tr>
         </tfoot>
         <tbody id="tablaDeUsuarios">
-            <tr>
-                <td>Identificacion</td>
-                <td>Tipo</td>
-                <td>Nombres</td>
-                <td>Apellidos</td>
-                <td>Rol</td>
-                <td>Correo</td>
-                <td>Carrera</td>
-                <td>Contraseña</td>
-                <td>Editar</td>
-                <td>Eliminar</td>
-            </tr>
+
         </tbody>
     </table>
     </div>
+
+    <div class="modal fade" id="modalAgregarUsuario">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Agregar Usuario</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form method="POST" action="/users/usuarios/">
+              <div class="form-group">
+                <label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
+                <div class="col-10">
+                  <input class="form-control" type="text" value="" id="nombreUsuario" name="nombreUsuario">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="example-text-input" class="col-2 col-form-label">Apellidos: </label>
+                <div class="col-10">
+                  <input class="form-control" type="text" value="" id="apellidoUsuario" name="apellidoUsuario">
+                </div>
+              </div>                           
+              <div class="form-group">
+                <label for="exampleInputEmail1">Correo Electronico: </label>
+                <input type="email" class="form-control" name="correoUsuario" id="correoUsuario" aria-describedby="emailHelp" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password: </label>
+                <input type="password" class="form-control" name="passwordUsuario" id="passwordUsuario" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <label for="exampleSelect1">Rol: </label>
+                <select class="form-control" id="rolUsuario" name="rolUsuario">
+                  <option>Administrador</option>
+                  <option>Profesor</option>
+                  <option>Ayudante</option>
+                  <option>Estudiante</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="example-text-input" class="col-2 col-form-label">Identificacion: </label>
+                <div class="col-10">
+                  <input class="form-control" type="text" value="" id="idUsuario" name="idUsuario">
+                </div>
+              </div>    
+              <div class="form-group">
+                <label for="exampleSelect1">Carrera: </label>
+                <select class="form-control" id="carreraUsuario" name="carreraUsuario">
+                  <option>No Aplica</option>
+                  <option>Ingenieria en Automatizacion</option>
+                  <option>Ingenieria en Ciencias Computacionales</option>
+                  <option>Ingenieria en Telematica</option>
+                  <option>Ingenieria Civil</option>
+                  <option>Produccion Audiovisual</option>
+                  <option>Hoteleria y Turismo</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery.dataTables.min.js"></script>
@@ -169,7 +235,14 @@
 
                 $('#example').DataTable();
             });
-          
+        });
+
+        $("#agregarUsuario").click(function(){
+          $("#modalAgregarUsuario").modal('show');
+        });
+
+        $("#guardarUsuario").click(function(){
+
         });
 
 

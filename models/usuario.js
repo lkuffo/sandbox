@@ -15,7 +15,7 @@ var schema = new Schema({
     password: String,
     rol: String,
     tipo_identif: String,
-    indentif: String,
+    identif: String,
     nombres: String,
     apellidos: String,
     carrera: String
