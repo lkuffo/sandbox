@@ -16,11 +16,42 @@ router.get('/', function(req, res, next) {
   });
 });
 
+
+function handlePut(req, res){
+    var tipo_identif = "matricula";
+    var carrera = req.body.editCarreraUsuario;
+    if (req.body.editRolUsuario == "Administrador" || req.body.editRolUsuario == "Profesor"){
+        tipo_identif = "cedula";
+    }
+    if (carrera == "No Aplica"){
+        carrera = "";
+    }
+    Usuario.update({identif : req.params.id}, {
+        correo: req.body.editCorreoUsuario,
+        password: req.body.editPasswordUsuario,
+        rol: req.body.editRolUsuario,
+        nombres: req.body.editNombreUsuario,
+        apellidos: req.body.editApellidoUsuario,
+        carrera: carrera},{multi : false}, callback)
+
+    function callback(err, numAffected){
+        if (err){
+            console.log(err.message);
+        }
+    }
+    res.redirect("/users");
+}
+
+router.put('/:id', handlePut);
+
 router.delete('/:id', function(req,res,next){
     Usuario.find({identif : req.params.id}).remove().exec();
 });
 
-router.post('/', function(req,res,next){
+router.post('/:id?', function(req,res,next){
+    if (req.params.id){
+        return handlePut(req, res);
+    }
     var tipo_identif = "matricula";
     var carrera = req.body.carreraUsuario;
     if (req.body.rolUsuario == "Administrador" || req.body.rolUsuario == "Profesor"){

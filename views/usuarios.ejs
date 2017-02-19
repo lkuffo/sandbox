@@ -134,7 +134,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Agregar Usuario</h5>
+            <h2 class="modal-title">Agregar Usuario</h2>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -199,6 +199,75 @@
       </div>
     </div>
 
+    <div class="modal fade" id="modalEditarUsuario">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title">Editar Usuario</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form method="POST" id="form-editar" action="/users/usuarios/">
+              <div class="form-group">
+                <label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
+                <div class="col-10">
+                  <input type="text" id="editNombreUsuario" name="editNombreUsuario">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="example-text-input" class="col-2 col-form-label">Apellidos: </label>
+                <div class="col-10">
+                  <input type="text" id="editApellidoUsuario" name="editApellidoUsuario">
+                </div>
+              </div>                           
+              <div class="form-group">
+                <label for="exampleInputEmail1">Correo Electronico: </label>
+                <input type="email" class="form-control" name="editCorreoUsuario" id="editCorreoUsuario" aria-describedby="emailHelp">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password: </label>
+                <input type="password" class="form-control" name="editPasswordUsuario" id="editPasswordUsuario">
+              </div>
+              <div class="form-group">
+                <label for="exampleSelect1">Rol: </label>
+                <select class="form-control" id="editRolUsuario" name="editRolUsuario">
+                  <option>Administrador</option>
+                  <option>Profesor</option>
+                  <option>Ayudante</option>
+                  <option>Estudiante</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="example-text-input" class="col-2 col-form-label">Identificacion: </label>
+                <div class="col-10">
+                  <p value="" id="editIdUsuario" name="editIdUsuario"> </p>
+                </div>
+              </div>    
+              <div class="form-group">
+                <label for="exampleSelect1">Carrera: </label>
+                <select class="form-control" id="editCarreraUsuario" name="editCarreraUsuario">
+                  <option>No Aplica</option>
+                  <option>Ingenieria en Automatizacion</option>
+                  <option>Ingenieria en Ciencias Computacionales</option>
+                  <option>Ingenieria en Telematica</option>
+                  <option>Ingenieria Civil</option>
+                  <option>Produccion Audiovisual</option>
+                  <option>Hoteleria y Turismo</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery.dataTables.min.js"></script>
@@ -218,7 +287,24 @@
                 }
 
                 $(".editar-usuario").click(function(){
-                  alert(this.id);
+                  identif_actual = $($(this).parent().siblings()[0]).text();
+                  $("#form-editar").attr("action", "/users/usuarios/"+identif_actual);
+                  tipo_actual = $($(this).parent().siblings()[1]).text();
+                  nombres_actual = $($(this).parent().siblings()[2]).text();
+                  apellidos_actual = $($(this).parent().siblings()[3]).text();
+                  rol_actual = $($(this).parent().siblings()[4]).text();
+                  correo_actual = $($(this).parent().siblings()[5]).text();
+                  carrera_actual = $($(this).parent().siblings()[6]).text();
+                  password_actual = $($(this).parent().siblings()[7]).text();
+
+                  $("#editNombreUsuario").val(nombres_actual);
+                  $("#editApellidoUsuario").val(apellidos_actual);
+                  $("#editCorreoUsuario").val(correo_actual);
+                  $("#editPasswordUsuario").val(password_actual);
+                  $("#editRolUsuario").val(rol_actual);
+                  $("#editIdUsuario").text(identif_actual);
+                  $("#editCarreraUsuario").val(carrera_actual)
+                  $("#modalEditarUsuario").modal('show');
                 });
 
                 $(".eliminar-usuario").click(function(){
@@ -229,9 +315,10 @@
                     url: url,
                     type: 'DELETE',
                     success: function(result){
-                      alert("ELIMINADO!");
+                      
                     }
                   })
+                  location.reload();
                 });
 
                 $('#example').DataTable();
