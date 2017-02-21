@@ -11,6 +11,7 @@ var users = require('./routes/users');
 var usuarios = require('./routes/usuarios');
 var courses = require('./routes/courses')
 var cursos = require('./routes/cursos');
+var course = require('./routes/course')
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use('/users', users);
 app.use('/users/usuarios', usuarios);
 app.use('/courses', courses);
 app.use('/courses/cursos', cursos);
+app.use('/course', course);
 
 
 // CSS's Y JS's

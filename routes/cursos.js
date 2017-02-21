@@ -42,7 +42,7 @@ function handlePut(req, res){
 router.put('/:id', handlePut);
 
 router.delete('/:id', function(req,res,next){
-    //suario.find({identif : req.params.id}).remove().exec();
+    Curso.find({paralelo : req.params.id}).remove().exec();
 });
 
 router.post('/:id?', function(req,res,next){
