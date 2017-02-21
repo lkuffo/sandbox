@@ -9,6 +9,8 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var usuarios = require('./routes/usuarios');
+var courses = require('./routes/courses')
+var cursos = require('./routes/cursos');
 
 var app = express();
 
@@ -28,6 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/users/usuarios', usuarios);
+app.use('/courses', courses);
+app.use('/courses/cursos', cursos);
 
 
 // CSS's Y JS's

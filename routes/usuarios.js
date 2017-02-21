@@ -16,6 +16,11 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/:id', function(req, res, next){
+    Usuario.find().where('identif').equals(req.params.id).exec(function(err, found){
+        res.json(found);
+    });
+});
 
 function handlePut(req, res){
     var tipo_identif = "matricula";
