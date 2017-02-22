@@ -84,38 +84,9 @@
     </nav>
 
     <br>
-    <h2> Paralelo: <%= paralelo %>  </h2> 
-    <h3 id="profesorDeCurso"> </h3>
+    <h2> Crear Curso </h2> 
     
-    <div class="container">
-    <table id="tablaEstudiantes" class="table table-striped table-bordered" cellspacing="0" width="100%">
-      <thead>
-          <tr>
-              <th>Matricula</th>
-              <th>Nombres</th>
-              <th>Apellidos</th>
-              <th>Correo</th>
-              <th>Carrera</th>
-              <th>Eliminar</th>
-          </tr>
-      </thead>
-      <tfoot>
-          <tr>
-              <th>Matricula</th>
-              <th>Nombres</th>
-              <th>Apellidos</th>
-              <th>Correo</th>
-              <th>Carrera</th>
-              <th>Eliminar</th>
-          </tr>
-      </tfoot>
-      <tbody id="tablaDeEstudiantes">
-
-      </tbody>
-  </table>      
-  </div>
-
-
+    
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery.dataTables.min.js"></script>
@@ -124,25 +95,7 @@
 
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
-            var paralelo = <%= paralelo %>;
-            $.get("../courses/cursos/"+paralelo, function(data){
-                identif_profesor = data[0].profesor;
-                alumnos = data[0].estudiantes;
-                $.get("../users/usuarios/"+identif_profesor, function(user){
-                    $("#profesorDeCurso").append(user[0].nombres +" "+user[0].apellidos);
-                });
-                var j = 0;
-                for  (i=0; i<alumnos.length; i++){
-                    alumno = alumnos[i];
-                    $.get("../users/usuarios/"+alumno, function(registro){
-                        $("#tablaDeEstudiantes").append("<tr><td>"+registro[0].identif+"</td><td>"+registro[0].nombres+"</td><td>"+registro[0].apellidos+"</td><td>"+registro[0].correo+"</td><td>"+registro[0].carrera+"</td><td><button type='button' class='btn btn-default eliminar-estudiante' id='"+registro[0].identif+"'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td>"+"</tr>");
-                        j = j+1;
-                        if (j==alumnos.length){
-                          $('#tablaEstudiantes').DataTable();
-                        }
-                    });
-                }
-            });
+
       });
       
     </script>

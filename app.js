@@ -9,9 +9,10 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var usuarios = require('./routes/usuarios');
-var courses = require('./routes/courses')
+var courses = require('./routes/courses');
 var cursos = require('./routes/cursos');
-var course = require('./routes/course')
+var course = require('./routes/course');
+var newcourse = require('./routes/newcourse');
 
 var app = express();
 
@@ -34,7 +35,7 @@ app.use('/users/usuarios', usuarios);
 app.use('/courses', courses);
 app.use('/courses/cursos', cursos);
 app.use('/course', course);
-
+app.use('/newcourse', newcourse);
 
 // CSS's Y JS's
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
