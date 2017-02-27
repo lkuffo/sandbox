@@ -13,6 +13,7 @@ var courses = require('./routes/courses');
 var cursos = require('./routes/cursos');
 var course = require('./routes/course');
 var newcourse = require('./routes/newcourse');
+var ejercicios = require('./routes/ejercicios');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/courses', courses);
 app.use('/courses/cursos', cursos);
 app.use('/course', course);
 app.use('/newcourse', newcourse);
+app.use('/ejercicios', ejercicios);
 
 // CSS's Y JS's
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
@@ -61,5 +63,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+app.listen(3000);
 module.exports = app;
