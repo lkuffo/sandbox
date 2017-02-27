@@ -30,5 +30,12 @@ router.post('/', function(req, res, next) {
     res.redirect("../courses");
 });
 
+router.post('/archivo', function(req, res, next) {
+    console.log(req);
+    console.log(req.files); 
+
+    res.redirect("../courses");
+});
+
 
 module.exports = router;
