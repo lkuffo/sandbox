@@ -24,7 +24,7 @@ router.get('/profesor', function(req,res,next){
         }
         nombres = [];
         for(i=0; i<usuarios.length; i++){
-            nombre_completo = usuarios[i].nombres + " " + usuarios[i].apellidos;
+            nombre_completo = usuarios[i].nombres + " " + usuarios[i].apellidos + "-" + usuarios[i].identif;
             if (usuarios[i].rol == "Profesor" && nombre_completo.includes(busqueda)){
                 nombres.push(nombre_completo);
             }
@@ -41,7 +41,7 @@ router.get('/estudiantes', function(req,res,next){
         }
         nombres = [];
         for(i=0; i<usuarios.length; i++){
-            nombre_completo = usuarios[i].nombres + " " + usuarios[i].apellidos;
+            nombre_completo = usuarios[i].nombres + " " + usuarios[i].apellidos + "-" + usuarios[i].identif;
             if (usuarios[i].rol == "Estudiante" && nombre_completo.includes(busqueda)){
                 nombres.push(nombre_completo);
             }

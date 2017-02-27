@@ -88,11 +88,14 @@
     
     <div class="row pt-20">
         <div class="col-md-offset-1 col-md-10">
-            <form id="infoejercicio">
+            <form id="infoejercicio" method="POST">
                 <div class="form-group">
-                    <label for="id-paralelo">Paralelo</label>
-                    <input class="form-control" type="number" placeholder="Ingresa un numero de paralelo" id="id-paralelo">
+                  <label for="autocompletar-profesor" class="col-sm-2 control-label">Paralelo</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" name="id-paralelo" id="id-paralelo">
+                  </div>
                 </div>
+
                 
                 <div class="form-group">
                   <label for="autocompletar-profesor" class="col-sm-2 control-label">Profesor</label>
@@ -107,12 +110,23 @@
 
                 <div class="form-group">
                   <label for="autocompletar-estudiante" class="col-sm-2 control-label">Estudiantes</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-9">
                     <input type="text" class="form-control" name="autocompletar-estudiante" id="autocompletar-estudiante">
+                  </div>
+                  <div class="col-sm-1">
+                    <button type=button class="btn btn-primary" id="agregar-un-estudiante" onclick="agregar_a_lista();">
+                      <span class="glyphicon glyphicon-plus"></span>
+                    </button>
                   </div>
                 </div>
 
                 <br>
+                <br>
+
+                <ul id="estudiantes-agregados">
+
+                </ul>
+
                 <br>
                 <br>
 
@@ -136,6 +150,20 @@
         $(document).ready(function() {
 
         });
+
+        function agregar_a_lista(){
+          estudiante = $("#autocompletar-estudiante").val();
+          cedula = estudiante.split("-")[1];
+          $("#estudiantes-agregados").append('<div class="row"><li><div class="col-sm-10"><input size=100 type="text" name="'+cedula+'" value="'+estudiante+'" readonly></div><div class="col-sm-2"><button id="'+cedula+'" type=button onclick="eliminar_un_estudiante(event);" class="btn btn-danger" data-role="remove"> Eliminar </button></div></li></div>');
+          $("#autocompletar-estudiante").val("");
+        }
+
+        function eliminar_un_estudiante(event){
+          cadena = '"#'+event.target.id+'"';
+          var elemento = $("#"+event.target.id);
+          elemento.parent().parent().parent().remove();
+
+        }
 
         $("#autocompletar-profesor").autocomplete({
           source: function(req, resp){
