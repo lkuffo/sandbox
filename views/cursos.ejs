@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
-  </head>
+  <%- include('header.ejs') %>
   <body>
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container-fluid">
@@ -265,7 +259,8 @@
     <script src="/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.jsdelivr.net/interact.js/1.2.6/interact.min.js"></script>
 
-
+    <%- include('footer.ejs') %>
+    
     <script type="text/javascript" charset="utf-8">
 
         $(document).ready(function() {
