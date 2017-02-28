@@ -16,6 +16,41 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/profesor', function(req,res,next){
+    var busqueda = req.query.term;
+    Usuario.find(function(err, usuarios){
+        if (err){
+            res.send(err);
+        }
+        nombres = [];
+        for(i=0; i<usuarios.length; i++){
+            nombre_completo = usuarios[i].nombres + " " + usuarios[i].apellidos + "-" + usuarios[i].identif;
+            if (usuarios[i].rol == "Profesor" && nombre_completo.includes(busqueda)){
+                nombres.push(nombre_completo);
+            }
+        }
+        res.json(nombres);
+    });
+});
+
+router.get('/estudiantes', function(req,res,next){
+    var busqueda = req.query.term;
+    Usuario.find(function(err, usuarios){
+        if (err){
+            res.send(err);
+        }
+        nombres = [];
+        for(i=0; i<usuarios.length; i++){
+            nombre_completo = usuarios[i].nombres + " " + usuarios[i].apellidos + "-" + usuarios[i].identif;
+            if (usuarios[i].rol == "Estudiante" && nombre_completo.includes(busqueda)){
+                nombres.push(nombre_completo);
+            }
+        }
+        res.json(nombres);
+    });
+});
+
+
 router.get('/:id', function(req, res, next){
     Usuario.find().where('identif').equals(req.params.id).exec(function(err, found){
         res.json(found);

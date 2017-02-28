@@ -42,6 +42,7 @@ function handlePut(req, res){
 router.put('/:id', handlePut);
 
 router.delete('/:id', function(req,res,next){
+    console.log(req.params.id);
     Curso.find({paralelo : req.params.id}).remove().exec();
 });
 
