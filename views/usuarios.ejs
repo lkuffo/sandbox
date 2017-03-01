@@ -10,9 +10,12 @@
 		<h2 class = 'align-center'>Usuarios </h2> 
 
 		<div class = 'row mb-10'>
-		<button type="button" class="btn btn-default" id="agregarUsuario">
-			<span class="glyphicon glyphicon-plus"></span> Agregar Usuario
-		</button>
+			<div class = 'container'>
+				<button type="button" class="btn btn-default" id="agregarUsuario">
+					<span class="glyphicon glyphicon-plus"></span> Agregar Usuario
+				</button>
+			</div>
+		
 		</div>
 		
 
@@ -55,7 +58,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h2 class="modal-title">Agregar Usuario</h2>
+					<h2 class="modal-title">Nuevo usuario</h2>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -63,18 +66,55 @@
 				<div class="modal-body">
 
 					<form method="POST" action="/users/usuarios/">
-						<div class="form-group">
-							<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
-							<div class="col-10">
-								<input class="form-control" type="text" value="" id="nombreUsuario" name="nombreUsuario">
+						<div class = 'row'>
+							<div class = 'col-md-6'>
+								<div class="form-group">
+									<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
+									<div class="col-10">
+										<input class="form-control" type="text" value="" id="nombreUsuario" name="nombreUsuario">
+									</div>
+								</div>
+								
+
+
+							</div>
+							<div class = 'col-md-6'>
+								<div class="form-group">
+									<label for="example-text-input" class="col-2 col-form-label">Apellidos: </label>
+									<div class="col-10">
+										<input class="form-control" type="text" value="" id="apellidoUsuario" name="apellidoUsuario">
+									</div>
+								</div> 
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="example-text-input" class="col-2 col-form-label">Apellidos: </label>
-							<div class="col-10">
-								<input class="form-control" type="text" value="" id="apellidoUsuario" name="apellidoUsuario">
+						<div class = 'row'>
+							<div class = 'col-md-6'>
+								<div class="form-group">
+									<label for="exampleSelect1">Rol: </label>
+									<select class="form-control" id="rolUsuario" name="rolUsuario">
+										<option>Administrador</option>
+										<option>Profesor</option>
+										<option>Ayudante</option>
+										<option>Estudiante</option>
+									</select>
+								</div>
 							</div>
-						</div>                           
+							<div class = 'col-md-6'>
+								<div class="form-group">
+									<label for="exampleSelect1">Carrera: </label>
+									<select class="form-control" id="carreraUsuario" name="carreraUsuario">
+										<option>No Aplica</option>
+										<option>Ingenieria en Automatizacion</option>
+										<option>Ingenieria en Ciencias Computacionales</option>
+										<option>Ingenieria en Telematica</option>
+										<option>Ingenieria Civil</option>
+										<option>Produccion Audiovisual</option>
+										<option>Hoteleria y Turismo</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						                          
 						<div class="form-group">
 							<label for="exampleInputEmail1">Correo Electronico: </label>
 							<input type="email" class="form-control" name="correoUsuario" id="correoUsuario" aria-describedby="emailHelp" placeholder="Enter email">
@@ -83,33 +123,14 @@
 							<label for="exampleInputPassword1">Password: </label>
 							<input type="password" class="form-control" name="passwordUsuario" id="passwordUsuario" placeholder="Password">
 						</div>
-						<div class="form-group">
-							<label for="exampleSelect1">Rol: </label>
-							<select class="form-control" id="rolUsuario" name="rolUsuario">
-								<option>Administrador</option>
-								<option>Profesor</option>
-								<option>Ayudante</option>
-								<option>Estudiante</option>
-							</select>
-						</div>
+						
 						<div class="form-group">
 							<label for="example-text-input" class="col-2 col-form-label">Identificacion: </label>
 							<div class="col-10">
 								<input class="form-control" type="text" value="" id="idUsuario" name="idUsuario">
 							</div>
 						</div>    
-						<div class="form-group">
-							<label for="exampleSelect1">Carrera: </label>
-							<select class="form-control" id="carreraUsuario" name="carreraUsuario">
-								<option>No Aplica</option>
-								<option>Ingenieria en Automatizacion</option>
-								<option>Ingenieria en Ciencias Computacionales</option>
-								<option>Ingenieria en Telematica</option>
-								<option>Ingenieria Civil</option>
-								<option>Produccion Audiovisual</option>
-								<option>Hoteleria y Turismo</option>
-							</select>
-						</div>
+						
 
 						<button type="submit" class="btn btn-primary">Guardar</button>
 					</form>
