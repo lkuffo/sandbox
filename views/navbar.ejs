@@ -14,28 +14,12 @@
           <ul class="nav navbar-nav">
             <li><a href="" onclick="javascript:event.target.port=3000">Fundamentos de programación <span class="sr-only"></span></a></li>
           </ul>
+
           <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Marcos Calderón <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Perfil</a></li>
-                <li><a href="#">Ejercicios</a></li>
-                <li><a href="#">Proyectos</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Cerrar sesión</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Made Velasco <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Perfil</a></li>
-                <li><a href="#">Ejercicios</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Cerrar sesión</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
+             <% if (!user) { %>
+              <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inicia sesión<span class="caret"></span></a>
+              <!--
               <ul id="login-dp" class="dropdown-menu">
                 <li>
                   <div class="row">
@@ -53,17 +37,27 @@
                         <div class="form-group">
                           <button class="btn btn-primary btn-block" id="menulogin">Entrar</button>
                         </div>
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox"> Mantenme conectado
-                          </label>
-                        </div>
                       </form>
                     </div>
                   </div>
                 </li>
+              </ul> -->
+            </li>
+            <% } else { %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user.username %><span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Perfil</a></li>
+                <li><a href="#">Ejercicios</a></li>
+                <li><a href="#">Proyectos</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/logout">Cerrar sesión</a></li>
               </ul>
             </li>
+              <p>Hello, <%= user.username %>. View your <a href="/profile">profile</a>.</p>
+            <% } %>
+            
+            
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->

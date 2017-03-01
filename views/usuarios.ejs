@@ -211,11 +211,6 @@
 	</div>
 
 
-	<script src="/js/jquery.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
-	<script src="/js/jquery.dataTables.min.js"></script>
-	<script src="//cdn.jsdelivr.net/interact.js/1.2.6/interact.min.js"></script>
-
 	<%- include('footer.ejs') %>
 
 	<script type="text/javascript" charset="utf-8">
@@ -224,7 +219,6 @@
 
 			$("#tablaDeUsuarios").empty();
 			$.get("/users/usuarios", function(data){
-				console.log(data);
 				for (var i = 0; i < data.length; i++){
 					var registro = data[i];
 					$("#tablaDeUsuarios").append("<tr><td>"+registro.identif+"</td><td>"+registro.tipo_identif+"</td><td>"+registro.nombres+"</td><td>"+registro.apellidos+"</td><td>"+registro.rol+"</td><td>"+registro.correo+"</td><td>"+registro.carrera+"</td><td>"+registro.password+"</td><td><button type='button' class='btn btn-default editar-usuario' id='"+registro.identif+"'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button></td> <td><button type='button' class='btn btn-default eliminar-usuario' id='"+registro.identif+"'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td>"+"</tr>")

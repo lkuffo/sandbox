@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<%- include('header.ejs') %>
+<body>
+	<%- include('navbar.ejs') %>
+
+	<div class = 'container pt-70'>
+	<h2 class = 'align-center'>¡Bienvenido a la sección de ejercicios!</h2> 
+		<div class = 'row'>
+			<% if (!user) { %>
+				<p class = >Inicia sesión <a href="/login">aquí</a>.</p>
+			<% } else { %>
+				<p>Hello, <%= Usuario.correo %>. View your <a href="/profile">profile</a>.</p>
+			<% } %>
+		</div>
+		
+	</div>
+
+	<%- include('footer.ejs') %>
+
+</body>
+</html>

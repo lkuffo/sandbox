@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<%- include('header.ejs') %>
+<body>
+	<%- include('navbar.ejs') %>
+	<div class = 'container pt-70'>
+		<h1 class = 'align-center'>Entra a tu cuenta</h1>
+
+		<div class = 'row pt-10 pb-10'>
+			<div class = 'align-center'>
+				<img src = 'http://educarparacrescer.abril.com.br/imagens/aprendizagem/programar.png'>
+			</div>
+		</div>
+
+		<div class = 'row pt-10'>
+			<div class = 'col-md-offset-3 col-md-6'>
+				<div class = 'align-center'>
+					<form action="/login" method="post" class="form-horizontal">
+						<div class="form-group">
+						<label for="username" class="col-sm-2 control-label" >Correo</label>
+							<div class="col-sm-10">
+								<input type="email" class="form-control" name = 'username' id = 'username' placeholder="Correo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password" class="col-sm-2 control-label">Contraseña</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" name = 'password' id = 'password' placeholder="Contraseña">
+							</div>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-default">Entrar</button>
+						</div>
+					</form>
+					<div class = 'pt-10'>
+						<a href="http://www.serviciosti.espol.edu.ec/ui/es/content/cta_elec/restablecer.aspx">¿Olvidaste tu contraseña?</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<%- console.log('qwe')%>
+
+
+	</div>
+	<%- include('footer.ejs') %>
+
+</body>
+</html>
