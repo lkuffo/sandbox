@@ -3,6 +3,8 @@ var path = require('path');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 
+var User = require('./models/User');
+
 // Configure the local strategy for use by Passport.
 //
 // The local strategy require a `verify` function which receives the credentials
@@ -10,27 +12,19 @@ var Strategy = require('passport-local').Strategy;
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(
-  function(username, password, cb) {
-  	console.log("LA CONCHA DE LA LORA");
-  	User.where('correo', username).findOne(
-  		if (err) { 
-  			return cb(err); 
-  		}
-      	if (!user) { 
-      		return cb(null, false); 
-      	}
-      	if (User.password != password) { 
-      		return cb(null, false); 
-      	}
-      return cb(null, user););
-
-    /*db.users.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); }
-      if (!user) { return cb(null, false); }
-      if (user.password != password) { return cb(null, false); }
-      return cb(null, user);
-    });*/
-  }));
+  function(username, password, done) {
+    User.findOne({ 'correo': username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (user.password != password) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 
 // Configure Passport authenticated session persistence.
@@ -41,14 +35,14 @@ passport.use(new Strategy(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser(function(user, cb) {
-  cb(null, user.id);
+  cb(null, user._id);
 });
 
 passport.deserializeUser(function(id, cb) {
- Usuario.where('correo', username).findOne(
+	User.findOne({ '_id': id }, function(err, user) {
     if (err) { return cb(err); }
     cb(null, user);
-  );
+  });
 });
 
 
@@ -81,13 +75,13 @@ app.use(passport.session());
 
 // Define routes
 var index = require('./routes/index');
-var users = require('./routes/users');
+/*var users = require('./routes/users');
 var usuarios = require('./routes/usuarios');
 var courses = require('./routes/courses');
 var cursos = require('./routes/cursos');
 var course = require('./routes/course');
 var newcourse = require('./routes/newcourse');
-var ejercicios = require('./routes/ejercicios');
+var ejercicios = require('./routes/ejercicios');*/
 
 
 app.get('/',
@@ -100,11 +94,11 @@ app.get('/login',
     res.render('login', { user: req.user });
   });
   
-app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+app.post('/login',
+  passport.authenticate('local', { successRedirect: '/',
+                                   failureRedirect: '/login',
+                                   failureFlash: true })
+);
   
 app.get('/logout',
   function(req, res){
@@ -127,13 +121,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutas
 app.use('/', index);
-app.use('/users', users);
+/*app.use('/users', users);
 app.use('/users/usuarios', usuarios);
 app.use('/courses', courses);
 app.use('/courses/cursos', cursos);
 app.use('/course', course);
 app.use('/newcourse', newcourse);
-app.use('/ejercicios', ejercicios);
+app.use('/ejercicios', ejercicios);*/
 
 
 

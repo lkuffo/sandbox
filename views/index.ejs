@@ -10,7 +10,7 @@
 			<% if (!user) { %>
 				<p class = >Inicia sesión <a href="/login">aquí</a>.</p>
 			<% } else { %>
-				<p>Hello, <%= Usuario.correo %>. View your <a href="/profile">profile</a>.</p>
+				<p>Hello, <%= user.correo %>. View your <a href="/profile">profile</a>.</p>
 			<% } %>
 		</div>
 		
