@@ -93,19 +93,34 @@
 	<%- include('footer.ejs') %>
 
 	<script type="text/javascript" charset="utf-8">
+		function shuffle(o){ //v1.0
+				    for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+				    return o;
+				};
 
 		$(document).ready(function() {
 
 			$(".seleccionar-ejercicio").click(function(){
 
 				var nivel = $("#selectNivelEjercicioEs").val();
-				console.log(nivel);
 				var url = "/student/practice/" + nivel;
+
 				$.get(url, function(ejercicios){
-					$("#tituloEjer").text(ejercicios[0].titulo);
-					$("#desEjer").text(ejercicios[0].descripcion);
-					$("#datosEntraEjer").text(ejercicios[0].datosEntrada);
-					$("#datosDeSalEjer").text(ejercicios[0].datosSalida);
+					var parsed = ejercicios;
+					var keyArray = []
+					
+					for(var x in ejercicios){
+						keyArray.push(parsed[x])
+					}
+
+					keyArray = shuffle(keyArray);
+
+					console.log(keyArray);
+
+					$("#tituloEjer").text(keyArray[0].titulo);
+					$("#desEjer").text(keyArray[0].descripcion);
+					$("#datosEntraEjer").text(keyArray[0].datosEntrada);
+					$("#datosDeSalEjer").text(keyArray[0].datosSalida);
 
 
 				})
