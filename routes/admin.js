@@ -1,8 +1,20 @@
 var express = require('express');
 var passport = require('passport');
 var User = require('../models/User');
-var Curso = require('../models/curso')
+var Curso = require('../models/curso');
+var multer = require("multer");
+var fs = require('fs');
+var storage = multer.diskStorage({  
+    destination: function (req, file, cb) {
+            cb(null, 'uploads/')
+    },    
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname)
+    }
+})
+var upload = multer({storage: storage})
 var router = express.Router();
+
 
 var nodemailer = require("nodemailer")
 var transport = nodemailer.createTransport('smtps://kufgal%40gmail.com:galoGALOkuffoKUFFO22@smtp.gmail.com');
@@ -239,6 +251,30 @@ router.put('/courses/par/profesor/:paralelo/:id', function(req, res, next){
             console.log(err.message);
         }
     }
+});
+
+router.post('/courses/new/archivo', upload.single('upl'), function(req,res,next){
+    var result = ''; 
+    console.log(req.file);
+    fs.readFile('uploads/upl', 'utf-8', function(err,data){
+        if (err){
+            return console.log(err);
+        }
+        info = data.split("\r\n");
+        paralelo = info[0];
+        profesor = info[1];
+        estudiantes = info.slice(2);
+        var curso = new Curso({
+            profesor: profesor,
+            paralelo: paralelo,
+            estudiantes: estudiantes
+        });
+
+        curso.save(function(err){
+            if (err) return handleError(err);
+        })
+    });
+    res.redirect("/admin/courses");
 });
 
 
