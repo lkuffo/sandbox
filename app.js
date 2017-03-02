@@ -1,19 +1,52 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
 
-// Rutas
-var index = require('./routes/index');
-var users = require('./routes/users');
-var usuarios = require('./routes/usuarios');
-var courses = require('./routes/courses');
-var cursos = require('./routes/cursos');
-var course = require('./routes/course');
-var newcourse = require('./routes/newcourse');
-var ejercicios = require('./routes/ejercicios');
+var User = require('./models/User');
+
+
+// Configure the local strategy for use by Passport.
+//
+// The local strategy require a `verify` function which receives the credentials
+// (`username` and `password`) submitted by the user.  The function must verify
+// that the password is correct and then invoke `cb` with a user object, which
+// will be set at `req.user` in route handlers after authentication.
+passport.use(new Strategy(
+  function(username, password, done) {
+    User.findOne({ 'correo': username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (user.password != password) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
+
+
+// Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  The
+// typical implementation of this is as simple as supplying the user ID when
+// serializing, and querying the user record by ID from the database when
+// deserializing.
+passport.serializeUser(function(user, cb) {
+  cb(null, user._id);
+});
+
+passport.deserializeUser(function(id, cb) {
+	User.findOne({ '_id': id }, function(err, user) {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+// New Express app
 
 var app = express();
 
@@ -21,23 +54,36 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(require('morgan')('combined'));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+
+var bcrypt = require('bcrypt');
+
+// Bcrypt variables
+const saltRounds = 10;
+const myPlaintextPassword = 'Fund@m3n70S';
+const someOtherPlaintextPassword = 'py7h0N';
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+
+app.get('/myprofile',
+  function(req, res){
+    res.render('myprofile', { user: req.user });
+  });
+  
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Rutas
-app.use('/', index);
-app.use('/users', users);
-app.use('/users/usuarios', usuarios);
-app.use('/courses', courses);
-app.use('/courses/cursos', cursos);
-app.use('/course', course);
-app.use('/newcourse', newcourse);
-app.use('/ejercicios', ejercicios);
 
 // CSS's Y JS's
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
@@ -45,6 +91,30 @@ app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redi
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 app.use('/css', express.static(__dirname + '/node_modules/datatables/media/css')); // redirect CSS datatables
 app.use('/js', express.static(__dirname + '/node_modules/datatables/media/js')); // redirect JS datatables
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Define routes
+/*
+var courses = require('./routes/courses');
+var cursos = require('./routes/cursos');
+var course = require('./routes/course');
+var newcourse = require('./routes/newcourse');
+var ejercicios = require('./routes/ejercicios');*/
+
+// Rutas
+app.use('/', require('./routes/index'));
+app.use('/admin', require('./routes/admin'));
+
+/*app.use('/users', users);
+
+app.use('/courses', courses);
+app.use('/courses/cursos', cursos);
+app.use('/course', course);
+app.use('/newcourse', newcourse);
+app.use('/ejercicios', ejercicios);*/
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -63,5 +133,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 app.listen(3000);
 module.exports = app;

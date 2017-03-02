@@ -1,8 +1,53 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Muli', sans-serif !important;
 }
 
-a {
-  color: #00B7FF;
+
+nav{
+    background-color: #333333 !important;
+}
+
+.navbar-nav>li>a{
+    color: white !important;
+    font-size: 14px;
+}
+
+.align-center {
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+    display: block;
+}
+
+
+/*Login at navbar*/
+
+#login-dp{
+    min-width: 250px;
+    padding: 14px 14px 0;
+    overflow:hidden;
+    background-color:rgba(255,255,255,.8);
+}
+#login-dp .help-block{
+    font-size:12px    
+}
+#login-dp .bottom{
+    background-color:rgba(255,255,255,.8);
+    border-top:1px solid #ddd;
+    clear:both;
+    padding:14px;
+}
+#login-dp .social-buttons{
+    margin:12px 0    
+}
+#login-dp .social-buttons a{
+    width: 49%;
+}
+#login-dp .form-group {
+    margin-bottom: 10px;
+}
+
+footer{
+    color:white;
+    font-size: 14px;
 }

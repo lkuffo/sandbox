@@ -1,188 +1,137 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
-  </head>
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li><a href="http://138.201.30.170/fundamentos/web/index">Inicio <span class="sr-only">(current)</span></a></li>
-            <li><a href="http://138.201.30.170/fundamentos/web/curso">Curso</a></li>
-            <li><a href="http://138.201.30.170/fundamentos/web/semanas">Planificación</a></li>
-            <li><a href="http://138.201.30.170/fundamentos/web/equipo">Equipo</a></li>
-            <li><a href="http://138.201.30.170/fundamentos/web/ayudantias">Ayudantías</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Marcos Calderón <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="http://138.201.30.170/fundamentos/web/perfilProfesor">Perfil</a></li>
-                <li><a href="http://138.201.30.170/fundamentos/web/practicarProfesor">Ejercicios</a></li>
-                <li><a href="http://138.201.30.170/fundamentos/web/proyectos">Proyectos</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="http://138.201.30.170/fundamentos/web/index">Cerrar sesión</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Made Velasco <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="http://138.201.30.170/fundamentos/web/perfilEstudiante">Perfil</a></li>
-                <li><a href="http://138.201.30.170/fundamentos/web/practicar">Ejercicios</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="http://138.201.30.170/fundamentos/web/index">Cerrar sesión</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Inicia sesión<span class="caret"></span></a>
-              <ul id="login-dp" class="dropdown-menu">
-                <li>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
-                        <div class="form-group">
-                          <label class="sr-only" for="loginEmail">Dirección de correo</label>
-                          <input type="email" class="form-control" id="loginEmail" placeholder="Correo ESPOL" required="">
-                        </div>
-                        <div class="form-group">
-                          <label class="sr-only" for="loginPassword">Contraseña</label>
-                          <input type="password" class="form-control" id="loginPassword" placeholder="Contraseña" required="">
-                          <div class="help-block text-right"><a href="http://www.serviciosti.espol.edu.ec/ui/es/content/cta_elec/restablecer.aspx">¿Olvidaste la contraseña?</a></div>
-                        </div>
-                        <div class="form-group">
-                          <button class="btn btn-primary btn-block" id="menulogin">Entrar</button>
-                        </div>
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox"> Mantenme conectado
-                          </label>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
+<%- include('header.ejs') %>
+<body>
 
-    <br>
-    <h2> Crear Curso </h2> 
-    
-    <div class="row pt-20">
-        <div class="col-md-offset-1 col-md-10">
-            <form id="infoejercicio">
-                <div class="form-group">
-                    <label for="id-paralelo">Paralelo</label>
-                    <input class="form-control" type="number" placeholder="Ingresa un numero de paralelo" id="id-paralelo">
-                </div>
-                
-                <div class="form-group">
-                  <label for="autocompletar-profesor" class="col-sm-2 control-label">Profesor</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" name="autocompletar-profesor" id="autocompletar-profesor">
-                  </div>
-                </div>
+	<%- include('navbar.ejs') %>
 
-                <br>
-                <br>
-                <br>
+	<div class="container pt-70">
 
-                <div class="form-group">
-                  <label for="autocompletar-estudiante" class="col-sm-2 control-label">Estudiantes</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" name="autocompletar-estudiante" id="autocompletar-estudiante">
-                  </div>
-                </div>
+		<h2 class ='align-center'>Curso Nuevo</h2> 
 
-                <br>
-                <br>
-                <br>
-
-                <div class="align-center pt-20">
-                    <button type="submit" id="botonvalidacionx" class="btn btn-default common-btn">Crear Curso</button>
-                    <a type="submit" class="btn btn-default common-btn" href="#">Regresar a Cursos</a>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.jsdelivr.net/interact.js/1.2.6/interact.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<div class="row pt-20">
+			<div class="col-md-offset-1 col-md-10">
+				<form id="infoejercicio" method="POST">
+					<div class="form-group">
+						<label for="autocompletar-profesor" class="col-sm-2 control-label">Paralelo</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" name="id-paralelo" id="id-paralelo">
+						</div>
+					</div>
 
 
-    <script type="text/javascript" charset="utf-8">
-        $(document).ready(function() {
+					<div class="form-group">
+						<label for="autocompletar-profesor" class="col-sm-2 control-label">Profesor</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="autocompletar-profesor" id="autocompletar-profesor">
+						</div>
+					</div>
 
-        });
+					<div class="form-group">
+						<label for="autocompletar-estudiante" class="col-sm-2 control-label">Estudiantes</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" name="autocompletar-estudiante" id="autocompletar-estudiante">
+						</div>
+						<div class="col-sm-1">
+							<button type=button class="btn btn-primary" id="agregar-un-estudiante" onclick="agregar_a_lista();">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</div>
+					</div>
 
-        $("#autocompletar-profesor").autocomplete({
-          source: function(req, resp){
-            $.ajax({
-              method: "GET",
-              url: "../users/usuarios/profesor",
-              dataType: "json",
-              data: {
-                term: req.term
-              },
-              success: function( data ) {
-                console.log(data)
-                resp(data);
-              }
-            });
-          },
-          change: function(event,ui){
-            if (!ui.item){ 
-              $(this).val(''); 
-            }
-          }
-        });
 
-        $("#autocompletar-estudiante").autocomplete({
-          source: function(req, resp){
-            $.ajax({
-              method: "GET",
-              url: "../users/usuarios/estudiantes",
-              dataType: "json",
-              data: {
-                term: req.term
-              },
-              success: function( data ) {
-                console.log(data)
-                resp(data);
-              }
-            });
-          },
-          change: function(event,ui){
-            if (!ui.item){ 
-              $(this).val(''); 
-            }
-          }
-        });
-      
-    </script>
-  </body>
+				</form>
+
+				<div class = 'row'>
+					<p>qweqwe</p>
+					<div class="align-center">
+						<button type="submit" id="botonvalidacionx" class="btn btn-default common-btn">Crear Curso</button>
+						<a type="submit" class="btn btn-default common-btn" href="#">Regresar a Cursos</a>
+					</div>
+				</div>
+
+				<h4 class = 'mt-20'>Estudiantes seleccionados</h4>
+
+				<ul class = 'list-unstyled' id="estudiantes-agregados">
+
+				</ul>
+			</div>
+		</div>
+
+		<h3> O... Subir un archivo </h3>
+		<form action="../newcourse/archivo" method="post" enctype="multipart/form-data">
+			<input type="file" name="archivocrear">
+			<button type="submit"> Crear Curso </button>
+		</form>
+
+	</div>
+
+	
+	<%- include('footer.ejs') %>
+
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+
+		});
+
+		function agregar_a_lista(){
+			estudiante = $("#autocompletar-estudiante").val();
+			cedula = estudiante.split(" - ")[1];
+			$("#estudiantes-agregados").append('<div class="row"><li><div class="col-sm-10"><input size=100 type="text" name="'+cedula+'" value="'+estudiante+'" readonly></div><div class="col-sm-2"><button id="'+cedula+'" type=button onclick="eliminar_un_estudiante(event);" class="btn btn-danger" data-role="remove"> Eliminar </button></div></li></div>');
+			$("#autocompletar-estudiante").val("");
+		}
+
+		function eliminar_un_estudiante(event){
+			cadena = '"#'+event.target.id+'"';
+			var elemento = $("#"+event.target.id);
+			elemento.parent().parent().parent().remove();
+
+		}
+
+		$("#autocompletar-profesor").autocomplete({
+			source: function(req, resp){
+				$.ajax({
+					method: "GET",
+					url: "../users/usuarios/profesor",
+					dataType: "json",
+					data: {
+						term: req.term
+					},
+					success: function( data ) {
+						resp(data);
+					}
+				});
+			},
+			change: function(event,ui){
+				if (!ui.item){ 
+					$(this).val(''); 
+				}
+			}
+		});
+
+		$("#autocompletar-estudiante").autocomplete({
+			source: function(req, resp){
+				$.ajax({
+					method: "GET",
+					url: "../users/usuarios/estudiantes",
+					dataType: "json",
+					data: {
+						term: req.term
+					},
+					success: function( data ) {
+						resp(data);
+					}
+				});
+			},
+			change: function(event,ui){
+				if (!ui.item){ 
+					$(this).val(''); 
+				}
+			}
+		});
+
+	</script>
+</body>
 </html>
 
 

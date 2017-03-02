@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<%- include('header.ejs') %>
+<body>
+	<%- include('navbar.ejs') %>
+
+	<script src="/js/jquery.min.js"></script>
+
+	<div class="container pt-70">
+
+		<% if (!user) { %>
+		<%- include('403.ejs') %>
+		<!-- NO OLVIDARSE DE CAMBIAR A ADMINISTRADOR -->
+		<% } else if (user.rol == "Administrador") { %>
+
+
+		<h2 class = 'align-center'>Usuarios </h2> 
+
+		<div class = 'row mb-10'>
+			<div class = 'container'>
+				<button type="button" class="btn btn-default" id="agregarUsuario">
+					<span class="glyphicon glyphicon-plus"></span> Agregar Usuario
+				</button>
+			</div>
+
+		</div>
+
+
+		<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Identificación</th>
+					<th>Tipo</th>
+					<th>Nombres</th>
+					<th>Apellidos</th>
+					<th>Rol</th>
+					<th>Correo</th>
+					<th>Carrera</th>
+					<th>Contraseña</th>
+					<th>Editar</th>
+					<th>Eliminar</th>
+				</tr>
+			</thead>		
+
+			<tfoot>
+				<tr>
+					<th>Identificación</th>
+					<th>Tipo</th>
+					<th>Nombres</th>
+					<th>Apellidos</th>
+					<th>Rol</th>
+					<th>Correo</th>
+					<th>Carrera</th>
+					<th>Contraseña</th>
+					<th>Editar</th>
+					<th>Eliminar</th>
+				</tr>
+			</tfoot>
+			<!-- <script type='text/javascript'> $("#tablaDeUsuarios").empty(); </script> -->
+			<tbody id="tablaDeUsuarios">
+			
+			</tbody>
+		</table>
+
+		<div class="modal fade" id="modalAgregarUsuario">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Nuevo usuario</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form  action="/admin/users/new" method="post">
+							<div class = 'row'>
+								<div class = 'col-md-6'>
+									<div class="form-group">
+										<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
+										<div class="col-10">
+											<input class="form-control" type="text" value="" id="nombreUsuario" name="nombreUsuario">
+										</div>
+									</div>
+								</div>
+								<div class = 'col-md-6'>
+									<div class="form-group">
+										<label for="example-text-input" class="col-2 col-form-label">Apellidos: </label>
+										<div class="col-10">
+											<input class="form-control" type="text" value="" id="apellidoUsuario" name="apellidoUsuario">
+										</div>
+									</div> 
+								</div>
+							</div>
+							<div class = 'row'>
+								<div class = 'col-md-6'>
+									<div class="form-group">
+										<label for="exampleSelect1">Rol: </label>
+										<select class="form-control" id="rolUsuario" name="rolUsuario">
+											<option>Administrador</option>
+											<option>Profesor</option>
+											<option>Ayudante</option>
+											<option>Estudiante</option>
+										</select>
+									</div>
+								</div>
+								<div class = 'col-md-6'>
+									<div class="form-group">
+										<label for="exampleSelect1">Carrera: </label>
+										<select class="form-control" id="carreraUsuario" name="carreraUsuario">
+											<option>No Aplica</option>
+											<option>Ingenieria en Automatizacion</option>
+											<option>Ingenieria en Ciencias Computacionales</option>
+											<option>Ingenieria en Telematica</option>
+											<option>Ingenieria Civil</option>
+											<option>Produccion Audiovisual</option>
+											<option>Hoteleria y Turismo</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="exampleInputEmail1">Correo Electronico: </label>
+								<input type="email" class="form-control" name="correoUsuario" id="correoUsuario" aria-describedby="emailHelp" placeholder="Enter email">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputPassword1">Password: </label>
+								<input type="password" class="form-control" name="passwordUsuario" id="passwordUsuario" placeholder="Password">
+							</div>
+
+							<div class="form-group">
+								<label for="example-text-input" class="col-2 col-form-label">Identificacion: </label>
+								<div class="col-10">
+									<input class="form-control" type="text" value="" id="idUsuario" name="idUsuario">
+								</div>
+							</div>    
+
+
+							<button type="submit" class="btn btn-primary">Guardar</button>
+						</form>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="modalEditarUsuario">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title">Editar Usuario</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form method="POST" id="form-editar" action="/admin/users/update">
+							<div class="form-group">
+								<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
+								<div class="col-10">
+									<input type="text" id="editNombreUsuario" name="editNombreUsuario">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="example-text-input" class="col-2 col-form-label">Apellidos: </label>
+								<div class="col-10">
+									<input type="text" id="editApellidoUsuario" name="editApellidoUsuario">
+								</div>
+							</div>                           
+							<div class="form-group">
+								<label for="exampleInputEmail1">Correo Electronico: </label>
+								<input type="email" class="form-control" name="editCorreoUsuario" id="editCorreoUsuario" aria-describedby="emailHelp">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputPassword1">Password: </label>
+								<input type="password" class="form-control" name="editPasswordUsuario" id="editPasswordUsuario">
+							</div>
+							<div class="form-group">
+								<label for="exampleSelect1">Rol: </label>
+								<select class="form-control" id="editRolUsuario" name="editRolUsuario">
+									<option>Administrador</option>
+									<option>Profesor</option>
+									<option>Ayudante</option>
+									<option>Estudiante</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="example-text-input" class="col-2 col-form-label">Identificacion: </label>
+								<div class="col-10">
+									<p value="" id="editIdUsuario" name="editIdUsuario"> </p>
+								</div>
+							</div>    
+							<div class="form-group">
+								<label for="exampleSelect1">Carrera: </label>
+								<select class="form-control" id="editCarreraUsuario" name="editCarreraUsuario">
+									<option>No Aplica</option>
+									<option>Ingenieria en Automatizacion</option>
+									<option>Ingenieria en Ciencias Computacionales</option>
+									<option>Ingenieria en Telematica</option>
+									<option>Ingenieria Civil</option>
+									<option>Produccion Audiovisual</option>
+									<option>Hoteleria y Turismo</option>
+								</select>
+							</div>
+
+							<button type="submit" class="btn btn-primary">Guardar</button>
+						</form>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<% } else { %>
+		<%- include('403.ejs') %>
+		<% } %>
+
+	</div>
+
+
+	<%- include('footer.ejs') %>
+
+	<script type="text/javascript" charset="utf-8">
+
+	$(document).ready(function() {
+
+		$("#tablaDeUsuarios").empty();
+		$.get("/admin/users/list", function(data){
+			for (var i = 0; i < data.length; i++){
+				var registro = data[i];
+				$("#tablaDeUsuarios").append("<tr><td>"+registro.identif+"</td><td>"+registro.tipo_identif+"</td><td>"+registro.nombres+"</td><td>"+registro.apellidos+"</td><td>"+registro.rol+"</td><td>"+registro.correo+"</td><td>"+registro.carrera+"</td><td>"+registro.password+"</td><td><button type='button' class='btn btn-default editar-usuario' id='"+registro.identif+"'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button></td> <td><button type='button' class='btn btn-default eliminar-usuario' id='"+registro.identif+"'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td>"+"</tr>")
+			}
+
+			$(".editar-usuario").click(function(){
+				identif_actual = $($(this).parent().siblings()[0]).text();
+				$("#form-editar").attr("action", "/admin/users/"+identif_actual);
+				tipo_actual = $($(this).parent().siblings()[1]).text();
+				nombres_actual = $($(this).parent().siblings()[2]).text();
+				apellidos_actual = $($(this).parent().siblings()[3]).text();
+				rol_actual = $($(this).parent().siblings()[4]).text();
+				correo_actual = $($(this).parent().siblings()[5]).text();
+				carrera_actual = $($(this).parent().siblings()[6]).text();
+				password_actual = $($(this).parent().siblings()[7]).text();
+
+				$("#editNombreUsuario").val(nombres_actual);
+				$("#editApellidoUsuario").val(apellidos_actual);
+				$("#editCorreoUsuario").val(correo_actual);
+				$("#editPasswordUsuario").val(password_actual);
+				$("#editRolUsuario").val(rol_actual);
+				$("#editIdUsuario").text(identif_actual);
+				$("#editCarreraUsuario").val(carrera_actual)
+				$("#modalEditarUsuario").modal('show');
+			});
+
+			$(".eliminar-usuario").click(function(){
+				var aEliminar = this.id;
+				var url = "admin/users/"+aEliminar;
+		
+			//Faltaria agregar un mensaje de confirmacion. Y que recargue la pagina
+			$.ajax({
+				url: url,
+				type: 'DELETE',
+				success: function(result){
+
+				}
+			})
+			location.reload();});
+
+			$('#example').DataTable();
+			
+			});
+	});
+
+	$("#agregarUsuario").click(function(){
+		$("#modalAgregarUsuario").modal('show');
+	});
+
+	$("#guardarUsuario").click(function(){
+
+	});
+
+
+
+	</script>
+</body>
+</html>
