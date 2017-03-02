@@ -26,7 +26,7 @@ router.get('/:id', function(req, res, next) {
                             aDevolver.push(todos[i]);
                         }
                     } 
-                    res.json(aDevolver);
+                    res.json(aDevolver.slice(0, 3));
                 });
         });
 });
