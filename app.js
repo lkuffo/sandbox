@@ -89,7 +89,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/index'));
 app.use('/admin', require('./routes/admin'));
 app.use('/student', require('./routes/student'));
-app.use('/djangorank', require('./routes/djangorank'))
+app.use('/djangorank', require('./routes/djangorank'));
+app.use('/admin/topthree', require('./routes/topthree'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
