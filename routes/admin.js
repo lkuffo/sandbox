@@ -228,6 +228,20 @@ router.put('/courses/par/:paralelo/:id', function(req, res, next){
 });
 
 
+router.put('/courses/par/profesor/:paralelo/:id', function(req, res, next){
+    var profesor = req.params.id;
+    var paralelo = req.params.paralelo;
+    Curso.update({paralelo: paralelo}, {
+        profesor: profesor },{multi : false}, callback)
+    
+    function callback(err, numAffected){
+        if (err){
+            console.log(err.message);
+        }
+    }
+});
+
+
 router.post('/courses/new/n', function(req, res, next) {
     estud = [];
     for (var key in req.body){

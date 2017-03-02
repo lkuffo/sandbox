@@ -21,6 +21,9 @@
 			<button type="button" class="btn btn-default" id="agregar-estudiante-a-curso">
 				<span class="glyphicon glyphicon-plus"></span> Agregar Estudiante
 			</button>
+			<button type="button" class="btn btn-default" id="editar-profesor-de-curso">
+				<span class="glyphicon glyphicon-plus"></span> Editar Profesor
+			</button>
 		</div>
 	</div>
 
@@ -53,7 +56,7 @@
 	</div>
 
 	<div class="align-center">
-		<a type="submit" class="btn btn-default common-btn" href="http://localhost:3000/admin/courses">Regresar a Cursos</a>
+		<a type="submit" class="btn btn-default common-btn" href="/admin/courses">Regresar a Cursos</a>
 	</div>
 
 	<div class="modal fade" id="modalAgregarEstudiante">
@@ -73,6 +76,28 @@
 							</div>
 						</div>
 						<button type="button" class="btn btn-primary" id="botonguardarestudiante">Guardar Estudiante</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<div class="modal fade" id="modalEditarProfesor">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Editar Profesor de Curso</h2>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+						<div class="form-group">
+							<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
+							<div class="col-12">
+								<input type="text" id="editarProfesorDeCurso" name="editarProfesorDeCurso">
+							</div>
+						</div>
+						<button type="button" class="btn btn-primary" id="botonguardarprofesor">Guardar Profesor</button>
 				</div>
 			</div>
 		</div>
@@ -114,6 +139,10 @@
 			$("#modalAgregarEstudiante").modal('show');
 		});
 
+		$("#editar-profesor-de-curso").click(function(){
+			$("#modalEditarProfesor").modal('show');
+		})
+
 		$("#botonguardarestudiante").click(function(){
 			var par = <%= paralelo %>;
 			identif_actual = $("#agregarEstudianteACurso").val().split("-")[1];
@@ -125,6 +154,40 @@
 				}
 			});
 			location.reload();
+		});
+
+		$("#botonguardarprofesor").click(function(){
+			var par = <%= paralelo %>;
+			identif_actual = $("#editarProfesorDeCurso").val().split("-")[1];
+			var url = "/admin/courses/par/profesor/"+par+"/"+identif_actual;
+			$.ajax({
+				method: "PUT",
+				url: url,
+				success: function(data) {
+				}
+			});
+			location.reload();
+		});
+
+		$("#editarProfesorDeCurso").autocomplete({
+			source: function(req, resp){
+				$.ajax({
+					method: "GET",
+					url: "/admin/users/profesor",
+					dataType: "json",
+					data: {
+						term: req.term
+					},
+					success: function( data ) {
+						resp(data);
+					}
+				});
+			},
+			change: function(event,ui){
+				if (!ui.item){ 
+					$(this).val(''); 
+				}
+			}
 		});
 
 		$("#agregarEstudianteACurso").autocomplete({
