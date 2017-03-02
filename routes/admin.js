@@ -3,6 +3,7 @@ var passport = require('passport');
 var User = require('../models/User');
 var Curso = require('../models/curso');
 var Ejercicio = require('../models/ejercicio');
+var Estudiante = require('../models/estudiante');
 
 var multer = require("multer");
 var fs = require('fs');
@@ -132,6 +133,20 @@ router.post('/users/new/:id?', function(req,res,next){
 	usuario.save(function(err){
 		if (err) return handleError(err);
 	});
+	
+	if (req.body.rolUsuario == "Estudiante"){
+		var estudiante = new Estudiante({
+			matricula: req.body.idUsuario,
+			puntaje: 0,
+			insignia: "",
+			ej_resueltos: []
+		})
+
+		estudiante.save(function(err){
+			if (err) return handleError(err);
+		});
+	}
+
 
 	var message = {
 		from: 'fpsandbox@example.com',
