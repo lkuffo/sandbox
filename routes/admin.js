@@ -87,13 +87,13 @@ function handleUserPut(req, res){
             console.log(err.message);
         }
     }
-    res.redirect("/users");
+    res.redirect("/admin/users");
 }
 
-router.put('users/update', handleUserPut);
+router.put('/users/:id', handleUserPut);
 
 
-router.post('users/new', function(req,res,next){
+router.post('/users/new/:id?', function(req,res,next){
     if (req.params.id){
         return handleUserPut(req, res);
     }
@@ -135,7 +135,7 @@ router.post('users/new', function(req,res,next){
         }
     })
 
-    res.redirect("/users");
+    res.redirect("/admin/users");
     
 });
 
@@ -212,6 +212,8 @@ router.put('/courses/par/:paralelo/:id', function(req, res, next){
         var i = estudiantes.indexOf(estudiante);
         if (i != -1){
             estudiantes.splice(i, 1);
+        }else{
+            estudiantes.push(estudiante);
         }
         console.log(estudiantes);
         Curso.update({paralelo : paralelo}, {

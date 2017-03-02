@@ -73,7 +73,7 @@
 					</div>
 					<div class="modal-body">
 
-						<form  action="/admin/users/new" method="post">
+						<form  action="../admin/users/new" method="POST">
 							<div class = 'row'>
 								<div class = 'col-md-6'>
 									<div class="form-group">
@@ -157,7 +157,7 @@
 					</div>
 					<div class="modal-body">
 
-						<form method="POST" id="form-editar" action="/admin/users/update">
+						<form method="POST" id="form-editar" action="/admin/users/new/">
 							<div class="form-group">
 								<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
 								<div class="col-10">
@@ -236,7 +236,7 @@
 
 			$(".editar-usuario").click(function(){
 				identif_actual = $($(this).parent().siblings()[0]).text();
-				$("#form-editar").attr("action", "/admin/users/"+identif_actual);
+				$("#form-editar").attr("action", "/admin/users/new/"+identif_actual);
 				tipo_actual = $($(this).parent().siblings()[1]).text();
 				nombres_actual = $($(this).parent().siblings()[2]).text();
 				apellidos_actual = $($(this).parent().siblings()[3]).text();
@@ -257,7 +257,7 @@
 
 			$(".eliminar-usuario").click(function(){
 				var aEliminar = this.id;
-				var url = "admin/users/"+aEliminar;
+				var url = "/admin/users/"+aEliminar;
 		
 			//Faltaria agregar un mensaje de confirmacion. Y que recargue la pagina
 			$.ajax({
