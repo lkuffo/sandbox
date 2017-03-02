@@ -77,33 +77,6 @@ router.put('/edit/:id', function(req, res) {
 	var ejercicioEdit = req.params.id;
 	console.log(ejercicioEdit);
 
-
-	/*Ejercicio.findById(ejercicioEdit, function(error, ejer1) {
-		if (error) {
-			console.log("Error al encontrar el ejercicio");
-		}else{
-			var ejercicio = ejer1;
-			ejer1.titulo =          req.body.tituloNewEjer,
-			ejer1.descripcion =     req.body.descNewEjer,
-			ejer1.datosEntrada =    req.body.dataEnNewEjer,
-			ejer1.datosSalida =     req.body.dataSaNewEjer,
-			ejer1.etiquetas =       req.body.tagsNewEjer,
-			ejer1.nombres = "",
-			ejer1.nivelDificultad = req.body.nivelNewEjer
-
-			ejer1.save(function(error, ejer1) {
-				if (error) {
-					res.send('Error');
-				}else{
-					res.send(ejer1);
-				}
-			});
-		}
-
-	});
-*/
-
-
 	Ejercicio.findOneAndUpdate(
 		{ _id: ejercicioEdit},
 		{titulo:          req.body.tituloNewEjer,
