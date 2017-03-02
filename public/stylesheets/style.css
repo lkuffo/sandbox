@@ -51,3 +51,17 @@ footer{
     color:white;
     font-size: 14px;
 }
+
+.common-btn, .common-btn:focus{
+    font-size: 20px;
+    background-color: #01A4A4;
+    border-color: #01A4A4;
+    color: #FFFFFF;
+    transition: all 0.25s;
+}
+.common-btn:hover, .common-btn:disabled{
+    background-color: #FFFFFF;
+    border-color: #01A4A4;
+    color: #01A4A4;
+    transition: all 0.25s;
+}

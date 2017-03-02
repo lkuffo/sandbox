@@ -4,10 +4,6 @@
 <body>
 	<%- include('navbar.ejs') %>
 
-	<br>
-	<!-- <h2> Ejercicios </h2>  -->
-	<br>
-
 	<div class="container pt-70 pb-50">
 
 
@@ -16,75 +12,75 @@
 		<!-- NO OLVIDARSE DE CAMBIAR A ESTUDIANTE -->
 		<% } else if (user.rol == "Estudiante") { %>
 
-		<h1 class = 'clr-light-blue'>Selecione el Nivel de Dificultad</h1>
-		<hr>
-		<div class="form-group">
-			<div class = 'row pt-15'>
-				<div class = 'col-md-3 col-xs-6'>
-					<label for="project-description">Dificultad</label>
-					<select class="form-control" id="selectNivelEjercicioEs" name="nivelEjerEstu">
-						<option value="Fácil">Fácil</option>
-						<option value="Medio">Medio</option>
-						<option value="Difícil">Difícil</option>
-					</select>
-				</div>
-			</div>
-			<div>
-
-			</div>
-			<div>
-				<button type="submit" class="btn btn-primary seleccionar-ejercicio">Buscar Ejercicio</button>
-			</div>
-		</div>    
-		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
-			<div id="exitoejercicio">
-			</div>
-			<!-- Tabs -->
-			<ul class="nav nav-tabs" role="tablist" id = 'curso-tabs'>
-				<li role="presentation" class="active"><a href="#problema" aria-controls="problema" role="tab" data-toggle="tab">Problema</a></li>
-				<li role="presentation"><a href="#envios" aria-controls="envios" role="tab" data-toggle="tab">Envíos</a></li>
-			</ul>
-			<!-- Paneles -->
-			<div class="tab-content mt-lg-20">
-				<div role="tabpanel" class="tab-pane fade in active" id="problema">
-					<h3 id="tituloEjer"></h3>
-					<br>
-					<h4><strong>Descripción</strong></h4>
-					<p id="desEjer"></p>
-					<h4><strong>Datos de Entrada</strong></h4>
-					<p id="datosEntraEjer"></p>
-					<h4><strong>Datos de Salida</strong></h4>
-					<p id="datosDeSalEjer"></p>
-					<br>
-
-
-
-
-					<div class = 'row'>
-						<div class = 'col-md-8'>
-							<label class="control-label">Subir tu código como archivo</label>
-							<input id="input-4" name="input4[]" type="file" multiple class="file-loading ">
-
-						</div>
-						<div class = 'col-md-2'>
-							<a href="#" class = "btn common-btn">Probar código</a>
-						</div>
-						<div class = 'col-md-2'>
-							<a href="#" class = "btn common-btn" onclick="mensajeDeExito();">Enviar código</a>
-						</div>
+		<h1 class = 'clr-light-blue align-center'>Ejercicios para practicar</h1>
+		<div class = 'col-md-offset-1 col-md-10'>
+			<h3 class = 'pt-50'>Seleccione el nivel de dificultad</h3>
+			<div class="form-group ">
+				<div class = 'row pt-15'>
+					<div class = 'col-md-3 col-xs-6'>
+						<label for="project-description">Dificultad</label>
+						<select class="form-control" id="selectNivelEjercicioEs" name="nivelEjerEstu">
+							<option value="Fácil">Fácil</option>
+							<option value="Medio">Medio</option>
+							<option value="Difícil">Difícil</option>
+						</select>
 					</div>
+				</div>
+				<div>
 
 				</div>
-				<div role="tabpanel" class="tab-pane fade" id="envios">
-					<div class = 'well'>
-						<div class = 'row pt-20 pb-20'>
-							<div class = 'align-center'>
-								No has realizado algún envío aun.
+				<div class = 'row pt-10'>
+					<button type="submit" class="btn common-btn seleccionar-ejercicio">Buscar Ejercicio</button>
+				</div>
+			</div>    
+
+			<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
+				<div id="exitoejercicio">
+				</div>
+				<!-- Tabs -->
+				<ul class="nav nav-tabs" role="tablist" id = 'curso-tabs'>
+					<li role="presentation" class="active"><a href="#problema" aria-controls="problema" role="tab" data-toggle="tab">Problema</a></li>
+					<li role="presentation"><a href="#envios" aria-controls="envios" role="tab" data-toggle="tab">Envíos</a></li>
+				</ul>
+				<!-- Paneles -->
+				<div class="tab-content mt-lg-20">
+					<div role="tabpanel" class="tab-pane fade in active" id="problema">
+						<div class = 'row'>
+						<h3 id="tituloEjer"></h3>
+						<h4><strong>Descripción</strong></h4>
+						<p id="desEjer" class = 'pt-10'></p>
+						<h4><strong>Datos de Entrada</strong></h4>
+						<p id="datosEntraEjer" class = 'pt-10'></p>
+						<h4><strong>Datos de Salida</strong></h4>
+						<p id="datosDeSalEjer" class = 'pt-10'></p>
+						</div>
+						<div class = 'row'>
+								<label class="control-label">Subir tu código como archivo</label>
+								<input id="input-4" name="input4[]" type="file" multiple class="file-loading ">
+						<div class = 'row pt-20'>
+							<div class = 'col-md-2'>
+								<a href="#" class = "btn common-btn">Probar código</a>
+							</div>
+							<div class = 'col-md-2'>
+								<a href="#" class = "btn common-btn" onclick="mensajeDeExito();">Enviar código</a>
+							</div>
+						</div>
+							
+						</div>
+
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="envios">
+						<div class = 'well'>
+							<div class = 'row pt-20 pb-20'>
+								<div class = 'align-center'>
+									No has realizado algún envío aun.
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 
 		<% } else { %>
@@ -97,23 +93,38 @@
 	<%- include('footer.ejs') %>
 
 	<script type="text/javascript" charset="utf-8">
+		function shuffle(o){ //v1.0
+				    for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+				    return o;
+				};
 
 		$(document).ready(function() {
 
 			$(".seleccionar-ejercicio").click(function(){
 
 				var nivel = $("#selectNivelEjercicioEs").val();
-				console.log(nivel);
 				var url = "/student/practice/" + nivel;
+
 				$.get(url, function(ejercicios){
-					$("#tituloEjer").text(ejercicios[0].titulo);
-					$("#desEjer").text(ejercicios[0].descripcion);
-					$("#datosEntraEjer").text(ejercicios[0].datosEntrada);
-					$("#datosDeSalEjer").text(ejercicios[0].datosSalida);
+					var parsed = ejercicios;
+					var keyArray = []
+					
+					for(var x in ejercicios){
+						keyArray.push(parsed[x])
+					}
+
+					keyArray = shuffle(keyArray);
+
+					console.log(keyArray);
+
+					$("#tituloEjer").text(keyArray[0].titulo);
+					$("#desEjer").text(keyArray[0].descripcion);
+					$("#datosEntraEjer").text(keyArray[0].datosEntrada);
+					$("#datosDeSalEjer").text(keyArray[0].datosSalida);
 
 
 				})
-});
+			});
 
 		});
 
