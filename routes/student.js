@@ -18,7 +18,9 @@ router.get('/practice', function(req, res, next) {
 
 ///TRAER EJERCICIOS POR LA DIFICULTAD Y TAGS ELEGIDOS
 router.get('/practice/:id', function(req, res){
+
 	var nivelDif = req.params.id;
+	console.log(nivelDif);
 	var tagEscog = 'random dados'; //etiquetas
 	Ejercicio.find({ nivelDificultad : nivelDif },function(error, ejercicios) {
 		if (error) {

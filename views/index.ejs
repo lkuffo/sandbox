@@ -20,10 +20,10 @@
 	<div class = 'row'>	
 		<% if (!user) { %>
 				<div class = 'align-center'>
-						<a href="/login" class="btn btn-default">Inicia ahora</a>
+						<a href="/login" class="btn  common-btn">Inicia ahora</a>
 				</div>
 		<% } else { %>
-			<p>Hola, <%= user.nombres  %>. Revisa tu perfil <a href="/profile">profile</a>.</p>
+			<p>Bienvenido <%= user.nombres  %>. </p>
 		<% } %>
 	</div>
 		
