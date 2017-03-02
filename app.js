@@ -104,6 +104,7 @@ var ejercicios = require('./routes/ejercicios');*/
 // Rutas
 app.use('/', require('./routes/index'));
 app.use('/admin', require('./routes/admin'));
+app.use('/ejercicios', require('./routes/ejercicios'));
 
 /*app.use('/users', users);
 
