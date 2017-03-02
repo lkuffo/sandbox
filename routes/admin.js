@@ -1,14 +1,19 @@
 var express = require('express');
+var passport = require('passport');
+var User = require('../models/User');
 var router = express.Router();
-var nodemailer = require("nodemailer")
 
-var Usuario = require('../models/usuario');
+var nodemailer = require("nodemailer")
 var transport = nodemailer.createTransport('smtps://kufgal%40gmail.com:galoGALOkuffoKUFFO22@smtp.gmail.com');
 
 
+router.get('/users', function(req, res, next){
+	res.render('users', { user: req.user });
+});
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  Usuario.find(function(err, usuarios){
+router.get('/users/list', function(req, res, next) {
+  User.find(function(err, usuarios){
       if (err){
           res.send(err)
       }
@@ -16,9 +21,9 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/profesor', function(req,res,next){
+router.get('/users/profesor', function(req,res,next){
     var busqueda = req.query.term;
-    Usuario.find(function(err, usuarios){
+    User.find(function(err, usuarios){
         if (err){
             res.send(err);
         }
@@ -33,9 +38,9 @@ router.get('/profesor', function(req,res,next){
     });
 });
 
-router.get('/estudiantes', function(req,res,next){
+router.get('/users/estudiantes', function(req,res,next){
     var busqueda = req.query.term;
-    Usuario.find(function(err, usuarios){
+    User.find(function(err, usuarios){
         if (err){
             res.send(err);
         }
@@ -51,8 +56,8 @@ router.get('/estudiantes', function(req,res,next){
 });
 
 
-router.get('/:id', function(req, res, next){
-    Usuario.find().where('identif').equals(req.params.id).exec(function(err, found){
+router.get('users/:id', function(req, res, next){
+    User.find().where('identif').equals(req.params.id).exec(function(err, found){
         res.json(found);
     });
 });
@@ -66,7 +71,7 @@ function handlePut(req, res){
     if (carrera == "No Aplica"){
         carrera = "";
     }
-    Usuario.update({identif : req.params.id}, {
+    User.update({identif : req.params.id}, {
         correo: req.body.editCorreoUsuario,
         password: req.body.editPasswordUsuario,
         rol: req.body.editRolUsuario,
@@ -82,13 +87,10 @@ function handlePut(req, res){
     res.redirect("/users");
 }
 
-router.put('/:id', handlePut);
+router.put('users/update', handlePut);
 
-router.delete('/:id', function(req,res,next){
-    Usuario.find({identif : req.params.id}).remove().exec();
-});
 
-router.post('/:id?', function(req,res,next){
+router.post('users/new', function(req,res,next){
     if (req.params.id){
         return handlePut(req, res);
     }
@@ -100,7 +102,7 @@ router.post('/:id?', function(req,res,next){
     if (carrera == "No Aplica"){
         carrera = "";
     }
-    var usuario = new Usuario({
+    var usuario = new User({
         correo: req.body.correoUsuario,
         password: req.body.passwordUsuario,
         rol: req.body.rolUsuario,
@@ -132,6 +134,10 @@ router.post('/:id?', function(req,res,next){
 
     res.redirect("/users");
     
+});
+
+router.delete('users/:id', function(req,res,next){
+    User.find({identif : req.params.id}).remove().exec();
 });
 
 module.exports = router;

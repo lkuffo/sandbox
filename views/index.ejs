@@ -5,14 +5,27 @@
 	<%- include('navbar.ejs') %>
 
 	<div class = 'container pt-70'>
-	<h2 class = 'align-center'>¡Bienvenido a la sección de ejercicios!</h2> 
-		<div class = 'row'>
-			<% if (!user) { %>
-				<p class = >Inicia sesión <a href="/login">aquí</a>.</p>
-			<% } else { %>
-				<p>Hello, <%= user.correo %>. View your <a href="/profile">profile</a>.</p>
-			<% } %>
-		</div>
+	
+	<div class = 'row pt-20 pb-20'>
+			<div class = 'col-md-offset-1 col-md-10'>
+					<h1 class = 'align-center'>Ejercicios de Python en línea y libres</h1> 
+					<h4 class = 'pt-20'>Únete a todos los estudiantes de Fundamentos de Programación que han usado esta herramienta para practicar sus ejercicios.</h4>
+
+					<img src = 'http://ourcodeworld.com/public-media/articles/articleocw-575e9796be0c9.png' class='img-responsive align-center'>
+
+					<h3>Sandbox es una herramienta donde podrás practicar tus ejercicios de Fundamentos de Programación de manera libre y en línea.</h3>
+			</div>
+		
+	</div>
+	<div class = 'row'>	
+		<% if (!user) { %>
+				<div class = 'align-center'>
+						<a href="/login" class="btn btn-default">Inicia ahora</a>
+				</div>
+		<% } else { %>
+			<p>Hola, <%= user.nombres  %>. Revisa tu perfil <a href="/profile">profile</a>.</p>
+		<% } %>
+	</div>
 		
 	</div>
 

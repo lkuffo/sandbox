@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<%- include('header.ejs') %>
+<body>
+	<%- include('navbar.ejs') %>
+	<div class = 'container pt-70'>
+		<% if (!user) { %>
+			<%- include('403.ejs') %>
+		<% } else { %>
+
+			<div class = 'row'>
+				<div class = 'col-md-offset-1 col-md-10'>
+					<h3>Nombres</h3>
+					<%- user.nombres + ' ' + user.apellidos %>
+					<h3>Puntaje</h3>
+
+					<h3>Insignias</h3>
+
+					<h3>Ejercicios completados</h3>
+				</div>
+			</div>
+			
+
+
+		<% } %>
+	</div>
+	<%- include('footer.ejs') %>
+
+</body>
+</html>

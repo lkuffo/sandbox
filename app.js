@@ -5,6 +5,7 @@ var Strategy = require('passport-local').Strategy;
 
 var User = require('./models/User');
 
+
 // Configure the local strategy for use by Passport.
 //
 // The local strategy require a `verify` function which receives the credentials
@@ -45,7 +46,6 @@ passport.deserializeUser(function(id, cb) {
   });
 });
 
-
 // New Express app
 
 var app = express();
@@ -67,45 +67,19 @@ const saltRounds = 10;
 const myPlaintextPassword = 'Fund@m3n70S';
 const someOtherPlaintextPassword = 'py7h0N';
 
-
 // Initialize Passport and restore authentication state, if any, from the
 // session.
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Define routes
-var index = require('./routes/index');
-/*var users = require('./routes/users');
-var usuarios = require('./routes/usuarios');
-var courses = require('./routes/courses');
-var cursos = require('./routes/cursos');
-var course = require('./routes/course');
-var newcourse = require('./routes/newcourse');
-var ejercicios = require('./routes/ejercicios');*/
 
 
-app.get('/',
-  function(req, res) {
-    res.render('index', { user: req.user });
-  });
 
-app.get('/login',
+app.get('/myprofile',
   function(req, res){
-    res.render('login', { user: req.user });
+    res.render('myprofile', { user: req.user });
   });
   
-app.post('/login',
-  passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/login',
-                                   failureFlash: true })
-);
-  
-app.get('/logout',
-  function(req, res){
-    req.logout();
-    res.redirect('/');
-  });
-
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -119,10 +93,20 @@ app.use('/css', express.static(__dirname + '/node_modules/datatables/media/css')
 app.use('/js', express.static(__dirname + '/node_modules/datatables/media/js')); // redirect JS datatables
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Define routes
+/*
+var courses = require('./routes/courses');
+var cursos = require('./routes/cursos');
+var course = require('./routes/course');
+var newcourse = require('./routes/newcourse');
+var ejercicios = require('./routes/ejercicios');*/
+
 // Rutas
-app.use('/', index);
+app.use('/', require('./routes/index'));
+app.use('/admin', require('./routes/admin'));
+
 /*app.use('/users', users);
-app.use('/users/usuarios', usuarios);
+
 app.use('/courses', courses);
 app.use('/courses/cursos', cursos);
 app.use('/course', course);
