@@ -167,8 +167,7 @@ router.get('/courses/list', function(req, res, next) {
 
 
 function handleCoursePut(req, res){
-
-    /*Usuario.update({identif : req.params.id}, {
+    Usuario.update({identif : req.params.id}, {
         correo: req.body.editCorreoUsuario,
         password: req.body.editPasswordUsuario,
         rol: req.body.editRolUsuario,
@@ -181,8 +180,6 @@ function handleCoursePut(req, res){
             console.log(err.message);
         }
     }
-    */
-
 }
 
 
@@ -205,6 +202,27 @@ router.post('/courses/:id?', function(req,res,next){
 
 router.get('/courses/new', function(req, res, next) {
     res.render('newcourse', { user: req.user  });
+});
+
+router.put('/courses/par/:paralelo/:id', function(req, res, next){
+    var estudiante = req.params.id;
+    var paralelo = req.params.paralelo;
+    Curso.findOne({paralelo: paralelo}, function(err, par){
+        var estudiantes = par.estudiantes;
+        var i = estudiantes.indexOf(estudiante);
+        if (i != -1){
+            estudiantes.splice(i, 1);
+        }
+        console.log(estudiantes);
+        Curso.update({paralelo : paralelo}, {
+            estudiantes: estudiantes},{multi : false}, callback)
+        
+        function callback(err, numAffected){
+            if (err){
+                console.log(err.message);
+            }
+        }
+    });
 });
 
 

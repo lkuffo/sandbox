@@ -58,6 +58,7 @@
 	<%- include('footer.ejs') %>
 
 	<script type="text/javascript" charset="utf-8">
+
 		$(document).ready(function() {
 			var paralelo = <%= paralelo %>;
 			$.get("/admin/courses/par/list/"+paralelo, function(data){
@@ -70,7 +71,7 @@
 				for  (i=0; i<alumnos.length; i++){
 					alumno = alumnos[i];
 					$.get("/admin/users/"+alumno, function(registro){
-						$("#tablaDeEstudiantes").append("<tr><td>"+registro[0].identif+"</td><td>"+registro[0].nombres+"</td><td>"+registro[0].apellidos+"</td><td>"+registro[0].correo+"</td><td>"+registro[0].carrera+"</td><td><button type='button' class='btn btn-default eliminar-estudiante' id='"+registro[0].identif+"'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td>"+"</tr>");
+						$("#tablaDeEstudiantes").append("<tr><td>"+registro[0].identif+"</td><td>"+registro[0].nombres+"</td><td>"+registro[0].apellidos+"</td><td>"+registro[0].correo+"</td><td>"+registro[0].carrera+"</td><td><button type='button' onclick='eliminar_un_estudiante_paralelo("+paralelo+","+registro[0].identif+")' class='btn btn-default eliminar-estudiante' id='"+registro[0].identif+"'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td>"+"</tr>");
 						j = j+1;
 						if (j==alumnos.length){
 							$('#tablaEstudiantes').DataTable();
@@ -79,6 +80,17 @@
 				}
 			});
 		});
+
+		function eliminar_un_estudiante_paralelo(paralelo, identif){
+			url = "./"+paralelo+"/"+identif;
+			$.ajax({
+				url: url,
+				type: 'PUT',
+				success: function(result){
+				}
+			})
+			location.reload();
+		}
 
 	</script>
 </body>
