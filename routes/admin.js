@@ -1,12 +1,15 @@
 var express = require('express');
 var passport = require('passport');
 var User = require('../models/User');
+var Curso = require('../models/curso')
 var router = express.Router();
 
 var nodemailer = require("nodemailer")
 var transport = nodemailer.createTransport('smtps://kufgal%40gmail.com:galoGALOkuffoKUFFO22@smtp.gmail.com');
 
-
+//////////////////////////
+// RUTEO PARA USUARIOS
+//////////////////////////
 router.get('/users', function(req, res, next){
 	res.render('users', { user: req.user });
 });
@@ -56,13 +59,13 @@ router.get('/users/estudiantes', function(req,res,next){
 });
 
 
-router.get('users/:id', function(req, res, next){
+router.get('/users/:id', function(req, res, next){
     User.find().where('identif').equals(req.params.id).exec(function(err, found){
         res.json(found);
     });
 });
 
-function handlePut(req, res){
+function handleUserPut(req, res){
     var tipo_identif = "matricula";
     var carrera = req.body.editCarreraUsuario;
     if (req.body.editRolUsuario == "Administrador" || req.body.editRolUsuario == "Profesor"){
@@ -84,15 +87,15 @@ function handlePut(req, res){
             console.log(err.message);
         }
     }
-    res.redirect("/users");
+    res.redirect("/admin/users");
 }
 
-router.put('users/update', handlePut);
+router.put('/users/:id', handleUserPut);
 
 
-router.post('users/new', function(req,res,next){
+router.post('/users/new/:id?', function(req,res,next){
     if (req.params.id){
-        return handlePut(req, res);
+        return handleUserPut(req, res);
     }
     var tipo_identif = "matricula";
     var carrera = req.body.carreraUsuario;
@@ -132,12 +135,160 @@ router.post('users/new', function(req,res,next){
         }
     })
 
-    res.redirect("/users");
+    res.redirect("/admin/users");
     
 });
 
-router.delete('users/:id', function(req,res,next){
+router.delete('/users/:id', function(req,res,next){
     User.find({identif : req.params.id}).remove().exec();
+});
+
+//////////////////////////
+// RUTEO DE CURSOS
+//////////////////////////
+
+
+router.get('/courses', function(req, res, next){
+	res.render('courses', { user: req.user });
+});
+
+
+/* GET Courses listing. */
+router.get('/courses/list', function(req, res, next) {
+  Curso.find(function(err, cursos){
+      if (err){
+          res.send(err)
+      }
+      res.json(cursos);
+  });
+});
+
+
+
+
+function handleCoursePut(req, res){
+    Usuario.update({identif : req.params.id}, {
+        correo: req.body.editCorreoUsuario,
+        password: req.body.editPasswordUsuario,
+        rol: req.body.editRolUsuario,
+        nombres: req.body.editNombreUsuario,
+        apellidos: req.body.editApellidoUsuario,
+        carrera: carrera},{multi : false}, callback)
+    
+    function callback(err, numAffected){
+        if (err){
+            console.log(err.message);
+        }
+    }
+}
+
+
+
+
+router.put('/courses/:id', handleCoursePut);
+
+router.delete('/courses/:id', function(req,res,next){
+    console.log(req.params.id);
+    Curso.find({paralelo : req.params.id}).remove().exec();
+});
+
+router.post('/courses/:id?', function(req,res,next){
+    if (req.params.id){
+        return handleCoursePut(req, res);
+    }
+    
+});
+
+
+router.get('/courses/new', function(req, res, next) {
+    res.render('newcourse', { user: req.user  });
+});
+
+router.put('/courses/par/:paralelo/:id', function(req, res, next){
+    var estudiante = req.params.id;
+    var paralelo = req.params.paralelo;
+    Curso.findOne({paralelo: paralelo}, function(err, par){
+        var estudiantes = par.estudiantes;
+        var i = estudiantes.indexOf(estudiante);
+        if (i != -1){
+            estudiantes.splice(i, 1);
+        }else{
+            estudiantes.push(estudiante);
+        }
+        console.log(estudiantes);
+        Curso.update({paralelo : paralelo}, {
+            estudiantes: estudiantes},{multi : false}, callback)
+        
+        function callback(err, numAffected){
+            if (err){
+                console.log(err.message);
+            }
+        }
+    });
+});
+
+
+router.put('/courses/par/profesor/:paralelo/:id', function(req, res, next){
+    var profesor = req.params.id;
+    var paralelo = req.params.paralelo;
+    Curso.update({paralelo: paralelo}, {
+        profesor: profesor },{multi : false}, callback)
+    
+    function callback(err, numAffected){
+        if (err){
+            console.log(err.message);
+        }
+    }
+});
+
+
+router.post('/courses/new/n', function(req, res, next) {
+    estud = [];
+    for (var key in req.body){
+        var value = req.body[key];
+        if (key != "id-paralelo" && key != "autocompletar-profesor" && key != "autocompletar-estudiante"){
+            estud.push(value.split("-")[1]);
+        }
+    }
+    profesor = req.body["autocompletar-profesor"].split("-")[1];
+    var curso = new Curso({
+        profesor: profesor,
+        paralelo: req.body["id-paralelo"],
+        estudiantes: estud
+    })
+
+    curso.save(function(err){
+        if (err) return handleError(err);
+    });
+
+    res.redirect("http://localhost:3000/admin/courses");
+});
+
+
+router.post('/courses/file', function(req, res, next) {
+    console.log(req);
+    console.log(req.files); 
+
+    res.redirect("http://localhost:3000/admin/courses");
+});
+
+
+//////////////////////////
+// RUTEO DE PARALELOS
+//////////////////////////
+
+
+
+router.get('/courses/par/:id', function(req, res, next) {
+  res.render('paralel', { paralelo: req.params.id,  user: req.user });
+});
+
+
+/* PARALEL users listing. */
+router.get('/courses/par/list/:id', function(req, res, next){
+    Curso.find().where('paralelo').equals(req.params.id).exec(function(err, found){
+        res.json(found);
+    });
 });
 
 module.exports = router;

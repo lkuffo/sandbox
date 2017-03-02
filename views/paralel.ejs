@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<%- include('header.ejs') %>
+<body>
+	<%- include('navbar.ejs') %>
+
+	<div class="container pt-70">
+	<% if (!user) { %>
+	<%- include('403.ejs') %>
+	<!-- NO OLVIDARSE DE CAMBIAR A ADMINISTRADOR -->
+	<% } else if (user.rol == "Administrador") { %>
+
+	
+	
+	<h2 class = 'align-center'> Paralelo <%= paralelo %> de Fundamentos de Programación </h2> 
+
+	<h3 id="profesorDeCurso"> </h3>
+
+	<div class = 'row mb-10'>
+		<div class = 'container'>
+			<button type="button" class="btn btn-default" id="agregar-estudiante-a-curso">
+				<span class="glyphicon glyphicon-plus"></span> Agregar Estudiante
+			</button>
+			<button type="button" class="btn btn-default" id="editar-profesor-de-curso">
+				<span class="glyphicon glyphicon-plus"></span> Editar Profesor
+			</button>
+		</div>
+	</div>
+
+	<div class="container">
+		<table id="tablaEstudiantes" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Matricula</th>
+					<th>Nombres</th>
+					<th>Apellidos</th>
+					<th>Correo</th>
+					<th>Carrera</th>
+					<th>Eliminar</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>Matricula</th>
+					<th>Nombres</th>
+					<th>Apellidos</th>
+					<th>Correo</th>
+					<th>Carrera</th>
+					<th>Eliminar</th>
+				</tr>
+			</tfoot>
+			<tbody id="tablaDeEstudiantes">
+
+			</tbody>
+		</table>      
+	</div>
+
+	<div class="align-center">
+		<a type="submit" class="btn btn-default common-btn" href="/admin/courses">Regresar a Cursos</a>
+	</div>
+
+	<div class="modal fade" id="modalAgregarEstudiante">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Agregar Estudiante a Curso</h2>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+						<div class="form-group">
+							<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
+							<div class="col-12">
+								<input type="text" id="agregarEstudianteACurso" name="agregarEstudianteACurso">
+							</div>
+						</div>
+						<button type="button" class="btn btn-primary" id="botonguardarestudiante">Guardar Estudiante</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<div class="modal fade" id="modalEditarProfesor">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Editar Profesor de Curso</h2>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+						<div class="form-group">
+							<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
+							<div class="col-12">
+								<input type="text" id="editarProfesorDeCurso" name="editarProfesorDeCurso">
+							</div>
+						</div>
+						<button type="button" class="btn btn-primary" id="botonguardarprofesor">Guardar Profesor</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<% } else { %>
+	<%- include('403.ejs') %>
+	<% } %>
+
+	</div>
+	
+	<%- include('footer.ejs') %>
+
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+			var paralelo = <%= paralelo %>;
+			$.get("/admin/courses/par/list/"+paralelo, function(data){
+				identif_profesor = data[0].profesor;
+				alumnos = data[0].estudiantes;
+				$.get("/admin/users/"+identif_profesor, function(user){
+					$("#profesorDeCurso").append(user[0].nombres +" "+user[0].apellidos);
+				});
+				var j = 0;
+				for  (i=0; i<alumnos.length; i++){
+					alumno = alumnos[i];
+					$.get("/admin/users/"+alumno, function(registro){
+						$("#tablaDeEstudiantes").append("<tr><td>"+registro[0].identif+"</td><td>"+registro[0].nombres+"</td><td>"+registro[0].apellidos+"</td><td>"+registro[0].correo+"</td><td>"+registro[0].carrera+"</td><td><button type='button' onclick='eliminar_un_estudiante_paralelo("+paralelo+","+registro[0].identif+")' class='btn btn-default eliminar-estudiante' id='"+registro[0].identif+"'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td>"+"</tr>");
+						j = j+1;
+						if (j==alumnos.length){
+							$('#tablaEstudiantes').DataTable();
+						}
+					});
+				}
+			});
+		});
+
+
+		$("#agregar-estudiante-a-curso").click(function(){
+			$("#modalAgregarEstudiante").modal('show');
+		});
+
+		$("#editar-profesor-de-curso").click(function(){
+			$("#modalEditarProfesor").modal('show');
+		})
+
+		$("#botonguardarestudiante").click(function(){
+			var par = <%= paralelo %>;
+			identif_actual = $("#agregarEstudianteACurso").val().split("-")[1];
+			var url = "/admin/courses/par/"+par+"/"+identif_actual;
+			$.ajax({
+				method: "PUT",
+				url: url,
+				success: function(data) {
+				}
+			});
+			location.reload();
+		});
+
+		$("#botonguardarprofesor").click(function(){
+			var par = <%= paralelo %>;
+			identif_actual = $("#editarProfesorDeCurso").val().split("-")[1];
+			var url = "/admin/courses/par/profesor/"+par+"/"+identif_actual;
+			$.ajax({
+				method: "PUT",
+				url: url,
+				success: function(data) {
+				}
+			});
+			location.reload();
+		});
+
+		$("#editarProfesorDeCurso").autocomplete({
+			source: function(req, resp){
+				$.ajax({
+					method: "GET",
+					url: "/admin/users/profesor",
+					dataType: "json",
+					data: {
+						term: req.term
+					},
+					success: function( data ) {
+						resp(data);
+					}
+				});
+			},
+			change: function(event,ui){
+				if (!ui.item){ 
+					$(this).val(''); 
+				}
+			}
+		});
+
+		$("#agregarEstudianteACurso").autocomplete({
+			source: function(req, resp){
+				$.ajax({
+					method: "GET",
+					url: "/admin/users/estudiantes",
+					dataType: "json",
+					data: {
+						term: req.term
+					},
+					success: function( data ) {
+						resp(data);
+					}
+				});
+			},
+			change: function(event,ui){
+				if (!ui.item){ 
+					$(this).val(''); 
+				}
+			}
+		});
+
+		function eliminar_un_estudiante_paralelo(paralelo, identif){
+			url = "./"+paralelo+"/"+identif;
+			$.ajax({
+				url: url,
+				type: 'PUT',
+				success: function(result){
+				}
+			})
+			location.reload();
+		}
+
+	</script>
+</body>
+</html>
+
+

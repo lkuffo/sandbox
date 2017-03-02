@@ -73,14 +73,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-
-
-app.get('/myprofile',
-  function(req, res){
-    res.render('myprofile', { user: req.user });
-  });
-  
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
@@ -94,16 +86,9 @@ app.use('/js', express.static(__dirname + '/node_modules/datatables/media/js'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Define routes
-/*
-var courses = require('./routes/courses');
-var cursos = require('./routes/cursos');
-var course = require('./routes/course');
-var newcourse = require('./routes/newcourse');
-var ejercicios = require('./routes/ejercicios');*/
-
-// Rutas
 app.use('/', require('./routes/index'));
 app.use('/admin', require('./routes/admin'));
+<<<<<<< HEAD
 app.use('/ejercicios', require('./routes/ejercicios'));
 
 /*app.use('/users', users);
@@ -115,6 +100,9 @@ app.use('/newcourse', newcourse);
 app.use('/ejercicios', ejercicios);*/
 
 
+=======
+app.use('/student', require('./routes/student'));
+>>>>>>> 2850a33c7c65fdecedb88868c300f52d86971eab
 
 
 // catch 404 and forward to error handler
