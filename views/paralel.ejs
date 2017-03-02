@@ -16,6 +16,14 @@
 
 	<h3 id="profesorDeCurso"> </h3>
 
+	<div class = 'row mb-10'>
+		<div class = 'container'>
+			<button type="button" class="btn btn-default" id="agregar-estudiante-a-curso">
+				<span class="glyphicon glyphicon-plus"></span> Agregar Estudiante
+			</button>
+		</div>
+	</div>
+
 	<div class="container">
 		<table id="tablaEstudiantes" class="table table-striped table-bordered" cellspacing="0" width="100%">
 			<thead>
@@ -47,7 +55,28 @@
 	<div class="align-center">
 		<a type="submit" class="btn btn-default common-btn" href="http://localhost:3000/admin/courses">Regresar a Cursos</a>
 	</div>
-	
+
+	<div class="modal fade" id="modalAgregarEstudiante">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Agregar Estudiante a Curso</h2>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+						<div class="form-group">
+							<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
+							<div class="col-12">
+								<input type="text" id="agregarEstudianteACurso" name="agregarEstudianteACurso">
+							</div>
+						</div>
+						<button type="button" class="btn btn-primary" id="botonguardarestudiante">Guardar Estudiante</button>
+				</div>
+			</div>
+		</div>
+	</div>	
 
 	<% } else { %>
 	<%- include('403.ejs') %>
@@ -58,7 +87,6 @@
 	<%- include('footer.ejs') %>
 
 	<script type="text/javascript" charset="utf-8">
-
 		$(document).ready(function() {
 			var paralelo = <%= paralelo %>;
 			$.get("/admin/courses/par/list/"+paralelo, function(data){
@@ -79,6 +107,45 @@
 					});
 				}
 			});
+		});
+
+
+		$("#agregar-estudiante-a-curso").click(function(){
+			$("#modalAgregarEstudiante").modal('show');
+		});
+
+		$("#botonguardarestudiante").click(function(){
+			var par = <%= paralelo %>;
+			identif_actual = $("#agregarEstudianteACurso").val().split("-")[1];
+			var url = "/admin/courses/par/"+par+"/"+identif_actual;
+			$.ajax({
+				method: "PUT",
+				url: url,
+				success: function(data) {
+				}
+			});
+			location.reload();
+		});
+
+		$("#agregarEstudianteACurso").autocomplete({
+			source: function(req, resp){
+				$.ajax({
+					method: "GET",
+					url: "/admin/users/estudiantes",
+					dataType: "json",
+					data: {
+						term: req.term
+					},
+					success: function( data ) {
+						resp(data);
+					}
+				});
+			},
+			change: function(event,ui){
+				if (!ui.item){ 
+					$(this).val(''); 
+				}
+			}
 		});
 
 		function eliminar_un_estudiante_paralelo(paralelo, identif){
