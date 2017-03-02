@@ -78,20 +78,20 @@
     </nav>
 
     <br>
-    <h2> Ejercicios </h2> 
+    <!-- <h2> Ejercicios </h2>  -->
     <br>
 
     <div class="container pt-70 pb-50">
-      <h1 class = 'clr-light-blue'>Seleciione el Nivel de Dificultad</h1>
+      <h1 class = 'clr-light-blue'>Selecione el Nivel de Dificultad</h1>
       <hr>
       <div class="form-group">
         <div class = 'row pt-15'>
             <div class = 'col-md-3 col-xs-6'>
               <label for="project-description">Dificultad</label>
               <select class="form-control" id="selectNivelEjercicioEs" name="nivelEjerEstu">
-                <option>Fácil</option>
-                <option>Medio</option>
-                <option>Difícil</option>
+                <option value="Fácil">Fácil</option>
+                <option value="Medio">Medio</option>
+                <option value="Difícil">Difícil</option>
               </select>
             </div>
           </div>
@@ -167,10 +167,10 @@
 
                 $(".seleccionar-ejercicio").click(function(){
 
-                  var nivel = $(".selectNivelEjercicioEs").text();
+                  var nivel = $("#selectNivelEjercicioEs").val();
                   console.log(nivel);
-                  var url = "/ejercicios/find/seleccionado/" + "Medio";
-                  
+                  //var url = "/ejercicios/find/seleccionado/" + "Medio";
+                  var url = "/ejercicios/find/seleccionado/" + nivel;
                  $.get(url, function(ejercicios){
                    // console.log(ejercicios);
                     //console.log(ejercicios[0].titulo);
