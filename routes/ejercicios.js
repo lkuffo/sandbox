@@ -6,6 +6,7 @@ var Ejercicio = require('../models/ejercicio');
 
 router.get('/', function(req, res, next) {
 	res.render('ejercicios', { title: 'Ejercicios' });
+	//res.render('estudianteEjer');
 });
 
 //TRAE TODOS LOS EJERCICIOS
@@ -23,6 +24,28 @@ router.get('/:id', function(req, res, next) {
 	var ejercicioFind = req.params.id;
 	console.log(ejercicioFind);
 
+});
+
+//TRAER 
+
+router.get('/find/opciones', function(req, res, next) {
+		res.render('estudianteEjer');
+});
+
+///TRAER EJERCICIOS POR LA DIFICULTAD Y TAGS ELEGIDOS
+router.get('/find/seleccionado/:id', function(req, res){
+	console.log('dentro de la busqueda');
+	var nivelDif = req.params.id;
+	var tagEscog = 'random dados'; //etiquetas
+	console.log(nivelDif);
+	Ejercicio.find({ nivelDificultad : nivelDif },function(error, ejercicios) {
+		if (error) {
+			res.send(error);
+		}
+		console.log(ejercicios);
+		res.json(ejercicios);
+	});
+	//res.redirect('estudianteEjer');
 });
 
 //CREA UN NUEVO EJERCICIO
@@ -50,11 +73,39 @@ router.post('/new/ejercicio', function(req, res, next){
 });
 
 //ACTUALIZA UN EJERCICIO
-router.put('/:id', function(req, res, next) {
+router.put('/edit/:id', function(req, res) {
 	var ejercicioEdit = req.params.id;
 	console.log(ejercicioEdit);
-	Ejercicio.update(
 
+
+	/*Ejercicio.findById(ejercicioEdit, function(error, ejer1) {
+		if (error) {
+			console.log("Error al encontrar el ejercicio");
+		}else{
+			var ejercicio = ejer1;
+			ejer1.titulo =          req.body.tituloNewEjer,
+			ejer1.descripcion =     req.body.descNewEjer,
+			ejer1.datosEntrada =    req.body.dataEnNewEjer,
+			ejer1.datosSalida =     req.body.dataSaNewEjer,
+			ejer1.etiquetas =       req.body.tagsNewEjer,
+			ejer1.nombres = "",
+			ejer1.nivelDificultad = req.body.nivelNewEjer
+
+			ejer1.save(function(error, ejer1) {
+				if (error) {
+					res.send('Error');
+				}else{
+					res.send(ejer1);
+				}
+			});
+		}
+
+	});
+*/
+
+
+	Ejercicio.findOneAndUpdate(
+		{ _id: ejercicioEdit},
 		{titulo:          req.body.tituloNewEjer,
 		descripcion:     req.body.descNewEjer,
 		datosEntrada:    req.body.dataEnNewEjer,

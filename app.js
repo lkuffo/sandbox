@@ -88,7 +88,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Define routes
 app.use('/', require('./routes/index'));
 app.use('/admin', require('./routes/admin'));
+app.use('/ejercicios', require('./routes/ejercicios'));
+
+/*app.use('/users', users);
+
+app.use('/courses', courses);
+app.use('/courses/cursos', cursos);
+app.use('/course', course);
+app.use('/newcourse', newcourse);
+app.use('/ejercicios', ejercicios);*/
+
+
 app.use('/student', require('./routes/student'));
+
 
 
 // catch 404 and forward to error handler

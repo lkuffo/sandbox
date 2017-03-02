@@ -188,34 +188,34 @@
           </div>
           <div class="modal-body">
 
-            <form method="PUT" id="form-editarEjercicio"" action="/ejercicios/">
+            <form method="PUT" id="form-editarEjercicio"" action="/ejercicios/edit/">
               <div class="form-group">
                 <label for="project-title">Título</label>
-                <input class="form-control validarTitulox" type="text" name="tituloNewEjer" placeholder="Ingresa un título" id="project-title">
+                <input class="form-control validarTituloy" type="text" name="tituloNewEjer" placeholder="Ingresa un título" id="project-title">
               </div>
               <div class="form-group">
                 <label for="project-description">Descripción</label>
-                <textarea class="form-control validarDescx" id="project-description" name="descNewEjer" rows="2" placeholder="Describe brevemente de qué consiste el ejercicio"></textarea>
+                <textarea class="form-control validarDescy" id="project-description" name="descNewEjer" rows="2" placeholder="Describe brevemente de qué consiste el ejercicio"></textarea>
               </div>
               <div class="form-group">
                 <label for="project-description">Datos de Entrada</label>
-                <textarea class="form-control validarEntrada" name="dataEnNewEjer" id="project-description" rows="2"></textarea>
+                <textarea class="form-control validarEntraday" name="dataEnNewEjer" id="project-description" rows="2"></textarea>
               </div>
               <div class="form-group">
                 <label for="project-description">Datos de Salida</label>
-                <textarea class="form-control validarSalida" name="dataSaNewEjer" id="project-description" rows="2"></textarea>
+                <textarea class="form-control validarSaliday" name="dataSaNewEjer" id="project-description" rows="2"></textarea>
               </div>
               
              <div class = 'form-group'>
                 <label for="project-tags">Tags:</label>
-                <input class="form-control validarTagx" type="tags" placeholder="Añade algunos tags..." name="tagsNewEjer"  data-role="tagsinput" id="project-tags"/>
+                <input class="form-control validarTagy" type="tags" placeholder="Añade algunos tags..." name="tagsNewEjer"  data-role="tagsinput" id="project-tags"/>
               </div>
 
               <div class="form-group">
                 <div class = 'row pt-15'>
                   <div class = 'col-md-3 col-xs-6'>
                     <label for="project-description">Dificultad</label>
-                    <select class="form-control" id="selectValidar" name="nivelNewEjer">
+                    <select class="form-control" id="selectValidary" name="nivelNewEjer">
                       <option>Fácil</option>
                       <option>Medio</option>
                       <option>Difícil</option>
@@ -250,7 +250,7 @@
                 $(".editar-ejercicio").click(function(){
                   var idEjer = this.id;
                  //identif_actual = $($(this).parent().siblings()[0]).text();
-                  $("#form-editarEjercicio").attr("action", "/ejercicios/"+idEjer);
+                  $("#form-editarEjercicio").attr("action", "/ejercicios/edit/"+idEjer);
                   titulo_edit = $($(this).parent().siblings()[0]).text();
                   descrip_edit = $($(this).parent().siblings()[1]).text();
                   datosEn_edit = $($(this).parent().siblings()[2]).text();
@@ -259,12 +259,12 @@
                   nivelDificultad_edit = $($(this).parent().siblings()[5]).text();
               
 
-                  $(".validarTitulox").val(titulo_edit);
-                  $(".validarDescx").val(descrip_edit);
-                  $(".validarEntrada").val(datosEn_edit);
-                  $(".validarSalida").val(datosSa_edit);
-                  $(".validarTagx").val(etiquetas_edit);
-                  $("#selectValidar").text(nivelDificultad_edit);
+                  $(".validarTituloy").val(titulo_edit);
+                  $(".validarDescy").val(descrip_edit);
+                  $(".validarEntraday").val(datosEn_edit);
+                  $(".validarSaliday").val(datosSa_edit);
+                  $(".validarTagy").val(etiquetas_edit);
+                  $("#selectValidary").val(nivelDificultad_edit);
                   $("#modalEditarEjercicio").modal('show');
                 });
 
@@ -296,13 +296,7 @@
           // $("#selectValidar").text(nivelDificultad_edit);
           $("#modalAgregarEjercicio").modal('show');
         });
-
-       // $("#guardarUsuario").click(function(){
-//
-       // });
-
-
-        
+             
     </script>
  
 
