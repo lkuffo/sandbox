@@ -2,6 +2,8 @@ var express = require('express');
 var path = require('path');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
+var fs = require('fs');
+var cors = require('cors');
 
 var User = require('./models/User');
 
@@ -85,6 +87,18 @@ app.use('/css', express.static(__dirname + '/node_modules/datatables/media/css')
 app.use('/js', express.static(__dirname + '/node_modules/datatables/media/js')); // redirect JS datatables
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ACAO header
+app.use(cors()); 
+app.use(express.static(path.join(__dirname, '../')));
+
+app.get('/', function (req, res) { 
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  contents = fs.readFileSync('sliderImages.json', 'utf8');
+  res.end(contents);
+});
+
+app.listen(process.env.PORT || 8080);
+
 // Define routes
 app.use('/', require('./routes/index'));
 app.use('/admin', require('./routes/admin'));
@@ -110,5 +124,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(3000);
+app.listen(4000);
 module.exports = app;
