@@ -208,7 +208,7 @@ router.get('/courses/new', function(req, res, next) {
 });
 
 
-router.post('/courses/new', function(req, res, next) {
+router.post('/courses/new/n', function(req, res, next) {
     estud = [];
     for (var key in req.body){
         var value = req.body[key];
@@ -227,7 +227,7 @@ router.post('/courses/new', function(req, res, next) {
         if (err) return handleError(err);
     });
 
-    res.redirect("../admin/courses");
+    res.redirect("http://localhost:3000/admin/courses");
 });
 
 
@@ -235,7 +235,7 @@ router.post('/courses/file', function(req, res, next) {
     console.log(req);
     console.log(req.files); 
 
-    res.redirect("../admin/courses");
+    res.redirect("http://localhost:3000/admin/courses");
 });
 
 

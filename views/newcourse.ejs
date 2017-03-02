@@ -17,7 +17,7 @@
 
 		<div class="row pt-20">
 			<div class="col-md-offset-1 col-md-10">
-				<form action="/admin/courses/new" id="infoejercicio" method="POST">
+				<form action="../courses/new/n" id="infoejercicio" method="POST">
 					<div class="form-group">
 						<label for="autocompletar-profesor" class="col-sm-2 control-label">Paralelo</label>
 						<div class="col-sm-10">
@@ -45,22 +45,21 @@
 						</div>
 					</div>
 
-
-				</form>
-
-				<div class = 'row'>
-					<p>qweqwe</p>
-					<div class="align-center">
-						<button type="submit" id="botonvalidacionx" class="btn btn-default common-btn">Crear Curso</button>
-						<a type="submit" class="btn btn-default common-btn" href="#">Regresar a Cursos</a>
+					
+					<div class = 'row'>
+						<div class="align-center">
+							<input type="submit" id="botonvalidacionx" class="btn btn-default common-btn">
+							<a type="submit" class="btn btn-default common-btn" href="../courses">Regresar a Cursos</a>
+						</div>
 					</div>
-				</div>
 
-				<h4 class = 'mt-20'>Estudiantes seleccionados</h4>
+					<h4 class = 'mt-20'>Estudiantes seleccionados</h4>
 
-				<ul class = 'list-unstyled' id="estudiantes-agregados">
+					<ul class = 'list-unstyled' id="estudiantes-agregados">
 
-				</ul>
+					</ul>
+				
+				</form>
 			</div>
 		</div>
 
@@ -105,7 +104,7 @@
 			source: function(req, resp){
 				$.ajax({
 					method: "GET",
-					url: "../users/usuarios/profesor",
+					url: "../users/profesor",
 					dataType: "json",
 					data: {
 						term: req.term
@@ -126,7 +125,7 @@
 			source: function(req, resp){
 				$.ajax({
 					method: "GET",
-					url: "../users/usuarios/estudiantes",
+					url: "../users/estudiantes",
 					dataType: "json",
 					data: {
 						term: req.term
