@@ -367,7 +367,7 @@ router.get('/practice/list', function(req, res, next) {
 
 
 // unique exersice
-router.get('/practice/:id', function(req, res, next) {
+router.get('/practice/unique/:id', function(req, res, next) {
 	var idEjercicio = req.params.id;
 
 	Ejercicio.findOne({_id: idEjercicio}, function(err, exer){

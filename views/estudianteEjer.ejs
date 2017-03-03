@@ -56,20 +56,16 @@
 
 			<div class = 'row'>
 				<div class = 'col-md-12'>
-
-
-					<div name="myForm" role="form" class="form-inline">
-						<div class = 'form-group'>
-							<input  type = 'text' style = 'display: none;' name = 'idExer'  id = 'idExer'>
-						</div>
+					<form action="/student/practice" method="post"  class="form-inline" encType="multipart/form-data">
 						<div class="form-group">
+							<input  type = 'text' style = 'display: none;' name = 'idExer'  id = 'idExer'>
 							<label class="control-label">Sube tu archivo de Python para probar el código
 
 							</label>
-							<input id="input-4" name="input4[]" type="file" multiple class="file-loading ">
+							<input id="solution" name="solution" type="file" multiple class="file-loading ">
 						</div>
-						<a type="submit" class="btn common-btn seleccionar-ejercicio">Enviar código</a>
-					</div>
+						<button type="submit" class="btn common-btn ">Enviar código</button>
+					</form>
 				</div>
 
 			</div>
@@ -109,14 +105,13 @@ $(document).ready(function() {
 
 			keyArray = shuffle(keyArray);
 
-			console.log(keyArray[0]._id);
-
 			$("#tituloEjer").text(keyArray[0].titulo);
 			$("#desEjer").text(keyArray[0].descripcion);
 			$("#formEntrada").text(keyArray[0].formEntrada);
 			$("#formSalida").text(keyArray[0].formSalida);
-			$('#idExer').val(keyArray[0]._id);
+			$("#idExer").val(keyArray[0]._id);
 
+			console.log($("#idExer").val());
 		})
 	});
 
