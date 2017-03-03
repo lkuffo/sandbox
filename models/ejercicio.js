@@ -6,10 +6,11 @@ var Schema = mongoose.Schema;
 var ejercicioSchema = new Schema({
     titulo: String,
     descripcion: String,
+    formEntrada: String,
+    formSalida: String,
     datosEntrada: String,
     datosSalida: String,
     etiquetas: String,
-    nombres: String,
     nivelDificultad: String
 },
 {

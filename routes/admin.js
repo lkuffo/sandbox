@@ -379,10 +379,11 @@ router.post('/practice/new/', function(req, res, next){
 	var ejercicioNew = new Ejercicio({
 		titulo:          req.body.tituloNewEjer,
 		descripcion:     req.body.descNewEjer,
-		datosEntrada:    req.body.dataEnNewEjer,
-		datosSalida:     req.body.dataSaNewEjer,
+		formEntrada: 	req.body.formEntrada,
+   		formSalida: 	req.body.formSalida,
+		datosEntrada:    req.body.casoEntrada,
+		datosSalida:     req.body.casoSalida,
 		etiquetas:       req.body.tagsNewEjer,
-		nombres: "",
 		nivelDificultad: req.body.nivelNewEjer
 	})
 	ejercicioNew.save(function(err) {
@@ -402,10 +403,11 @@ router.put('/practice/edit/:id', function(req, res) {
 		{ _id: ejercicioEdit},
 		{titulo:          req.body.tituloNewEjer,
 			descripcion:     req.body.descNewEjer,
-			datosEntrada:    req.body.dataEnNewEjer,
-			datosSalida:     req.body.dataSaNewEjer,
+			formEntrada: 	req.body.formEntrada,
+	   		formSalida: 	req.body.formSalida,
+			datosEntrada:    req.body.casoEntrada,
+			datosSalida:     req.body.casoSalida,
 			etiquetas:       req.body.tagsNewEjer,
-			nombres: "",
 			nivelDificultad: req.body.nivelNewEjer},
 			{multi : false},
 			callback
