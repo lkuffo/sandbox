@@ -16,30 +16,30 @@ router.get('/cursos', function(req, res, next) {
 		if (err){
 			res.send(err)
 		}
-        k = 0;
-        pera = 0
-        for (var i in cursos){
-            key = cursos[i].paralelo;
-            estudiants = cursos[i].estudiantes;
-            for (var j = 0; j < estudiants.length; j++){
-                estudiant = estudiants[j];
-                Estudiante.find().where('matricula').equals(estudiant).exec(function(err, found){
-                    rightnow = cursos[k].paralelo;
-                    var value = found[0].ej_resueltos.length;
-                    aDevolver[rightnow] = value;
-                    console.log(aDevolver);
-                    pera +=1
-                    if (pera == estudiants.length){
-                        k+=1;
-                        pera = 0;
-                    }
-                    if (k == cursos.length){
-                        res.json(aDevolver);
-                    }
-
-                });
-            } 
-        }
+        Estudiante.find(function(err, estudiantes){
+        	if (err){
+			    res.send(err)
+		    }
+            for (var i in cursos){
+                paralelo = cursos[i].paralelo;
+                estudiantes_de_curso = cursos[i].estudiantes;
+                for (var j = 0; j < estudiantes_de_curso.length; j++){
+                    actual = estudiantes_de_curso[j];
+                    for (var k in estudiantes){
+                        if (estudiantes[k].matricula == actual){
+                            value = estudiantes[k].ej_resueltos.length;
+                            if (paralelo in aDevolver){
+                                aDevolver[paralelo] += value;
+                            }else{
+                                aDevolver[paralelo] = value;
+                            }       
+                            break;
+                        }
+                    }            
+                }
+            }
+            res.json(aDevolver);    
+        });
 	});
 });
 
