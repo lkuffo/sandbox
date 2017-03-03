@@ -46,27 +46,11 @@
 				<div class="container-fluid pt-20">
 					<div class="row">
 						<div class="col-md-12">
-							<div class="form-group row">
-					    		<label for="cursoSelect" class="col-md-2 col-form-label">Curso: </label>
-					    		<div class="col-md-9">
-						    		<select class="form-control" id="cursoSelect">
-										<option>Curso 1</option>
-										<option>Curso 2</option>
-										<option>Curso 3</option>
-										<option>Curso 4</option>
-										<option>Curso 5</option>
-								    </select>
-					    		</div>
-						  	</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
 							<button class="btn btn-primary inner" id="generar-grafico-por-curso">Generar</button>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12" id="grafico-por-curso">
+						<div class="col-md-12" id="grafico-por-curso" style="width: 500px; height: 500px;">
 							<!-- AQUI VA EL GRAFICO -->
 						</div>
 					</div>
@@ -104,6 +88,22 @@
 					}
 				];
 				Plotly.newPlot('grafico-por-fecha', data);
+			});
+			
+		});
+
+		$("#generar-grafico-por-curso").click(function(){
+			$("#grafico-por-curso").empty();
+			$.get("/reportes/cursos", function(raw_data){
+				console.log(raw_data);
+				var data = [
+					{
+						x: Object.keys(raw_data),
+						y: Object.values(raw_data),
+						type: 'bar'
+					}
+				];
+				Plotly.newPlot('grafico-por-curso', data);
 			});
 			
 		});
