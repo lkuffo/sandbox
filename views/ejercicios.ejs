@@ -130,7 +130,7 @@
 					</div>
 					<div class="modal-body">
 
-						<form method="PUT" id="form-editarEjercicio">
+						<form method="POST" id="form-editarEjercicio" action="/admin/practice/new">
 							<div class="form-group">
 								<label for="project-title">Título</label>
 								<input class="form-control validarTituloy" type="text" name="tituloNewEjer" placeholder="Ingresa un título" id="project-title">
@@ -204,7 +204,7 @@
 
 				$(".editar-ejercicio").click(function(){
 					var idEjer = this.id;
-					$("#form-editarEjercicio").attr("action", "/admin/practice/edit/"+idEjer);
+					$("#form-editarEjercicio").attr("action", "/admin/practice/new/"+idEjer);
 					titulo_edit = $($(this).parent().siblings()[0]).text();
 					descrip_edit = $($(this).parent().siblings()[1]).text();
 					formEn_edit = $($(this).parent().siblings()[2]).text();
