@@ -366,9 +366,16 @@ router.get('/practice/list', function(req, res, next) {
 });
 
 
+// unique exersice
 router.get('/practice/:id', function(req, res, next) {
-	var ejercicioFind = req.params.id;
-	console.log(ejercicioFind);
+	var idEjercicio = req.params.id;
+
+	Ejercicio.findOne({_id: idEjercicio}, function(err, exer){
+		if (err){
+			res.send(err);
+		}
+		res.json(exer);
+	});
 
 });
 
