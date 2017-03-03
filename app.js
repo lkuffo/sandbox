@@ -2,8 +2,6 @@ var express = require('express');
 var path = require('path');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
-var fs = require('fs');
-var cors = require('cors');
 
 var User = require('./models/User');
 
@@ -112,18 +110,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-// ACAO header
-app.use(cors()); 
-app.use(express.static(path.join(__dirname, '../')));
-
-app.get('/', function (req, res) { 
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  contents = fs.readFileSync('sliderImages.json', 'utf8');
-  res.end(contents);
-});
-
-app.listen(process.env.PORT || 8080);
 
 app.listen(4000);
 module.exports = app;

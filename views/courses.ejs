@@ -4,7 +4,6 @@
 <body>
 	<%- include('navbar.ejs') %>
 
-
 	<div class="container pt-70">
 
 		<% if (!user) { %>
@@ -16,11 +15,13 @@
 
 		<div class = 'row mb-10'>
 			<div class = 'container'>
-				<button type="button" class="btn btn-default" id="agregarCurso" onclick="location.href='/admin/courses/new';">
+				<!--<button type="button" class="btn btn-default" id="agregarCurso" onclick="location.href='/admin/courses/new';">
+					<span class="glyphicon glyphicon-plus"></span> Agregar Curso
+				</button>-->
+				<button type="button" class="btn btn-default" id="agregarCurso" data-toggle="modal" data-target="#modalAgregarEjercicio">
 					<span class="glyphicon glyphicon-plus"></span> Agregar Curso
 				</button>
 			</div>
-
 		</div>
 
 		<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -50,153 +51,83 @@
 		</table>
 	</div>
 
-	<div class="modal fade" id="modalAgregarUsuario">
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalAgregarCurso">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h2 class="modal-title">Agregar Usuario</h2>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
+					<h4 class="modal-title">Agregar Curso</h4>
 				</div>
 				<div class="modal-body">
-
-					<form method="POST" action="/users/usuarios/">
-						<div class="form-group">
-							<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
-							<div class="col-10">
-								<input class="form-control" type="text" value="" id="nombreUsuario" name="nombreUsuario">
+					<form action="courses/new/n" id="curso-normal" method="POST">
+						<div class="form-group row">
+							<label for="id-paralelo" class="col-md-2 control-label">Paralelo</label>
+							<div class="col-md-10">
+								<input type="number" class="form-control" name="id-paralelo" id="id-paralelo">
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="example-text-input" class="col-2 col-form-label">Apellidos: </label>
-							<div class="col-10">
-								<input class="form-control" type="text" value="" id="apellidoUsuario" name="apellidoUsuario">
-							</div>
-						</div>                           
-						<div class="form-group">
-							<label for="exampleInputEmail1">Correo Electronico: </label>
-							<input type="email" class="form-control" name="correoUsuario" id="correoUsuario" aria-describedby="emailHelp" placeholder="Enter email">
-						</div>
-						<div class="form-group">
-							<label for="exampleInputPassword1">Password: </label>
-							<input type="password" class="form-control" name="passwordUsuario" id="passwordUsuario" placeholder="Password">
-						</div>
-						<div class="form-group">
-							<label for="exampleSelect1">Rol: </label>
-							<select class="form-control" id="rolUsuario" name="rolUsuario">
-								<option>Administrador</option>
-								<option>Profesor</option>
-								<option>Ayudante</option>
-								<option>Estudiante</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="example-text-input" class="col-2 col-form-label">Identificacion: </label>
-							<div class="col-10">
-								<input class="form-control" type="text" value="" id="idUsuario" name="idUsuario">
-							</div>
-						</div>    
-						<div class="form-group">
-							<label for="exampleSelect1">Carrera: </label>
-							<select class="form-control" id="carreraUsuario" name="carreraUsuario">
-								<option>No Aplica</option>
-								<option>Ingenieria en Automatizacion</option>
-								<option>Ingenieria en Ciencias Computacionales</option>
-								<option>Ingenieria en Telematica</option>
-								<option>Ingenieria Civil</option>
-								<option>Produccion Audiovisual</option>
-								<option>Hoteleria y Turismo</option>
-							</select>
 						</div>
 
-						<button type="submit" class="btn btn-primary">Guardar</button>
+						<div class="form-group row">
+							<label for="autocompletar-profesor" class="col-md-2 control-label">Profesor</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" name="autocompletar-profesor" id="autocompletar-profesor">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="autocompletar-estudiante" class="col-md-2 control-label">Estudiantes</label>
+							<div class="col-md-8">
+								<input type="text" class="form-control" name="autocompletar-estudiante" id="autocompletar-estudiante">
+							</div>
+							<div class="col-md-1">
+								<button type=button class="btn btn-primary" id="agregar-un-estudiante" onclick="agregar_a_lista();">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
+							</div>
+						</div>
+						
+						<div class = 'row'>
+							<div class="align-center">
+								<input type="submit" id="botonvalidacionx" class="btn btn-primary">
+							</div>
+						</div>
+
+						<h4 class = 'mt-20'>Estudiantes seleccionados</h4>
+						<ul class = 'list-unstyled container-fluid' id="estudiantes-agregados"></ul>
+
 					</form>
-
-
+					<hr>
+					<h4>Subir un archivo </h4>
+					<form id="curso-archivo" action="/admin/courses/new/archivo" method="post" enctype="multipart/form-data">
+						<div class="form-group row">
+							<div class="col-md-4">
+								<input type="file" name="upl">
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary"> Crear Curso </button>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="modal fade" id="modalEditarUsuario">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h2 class="modal-title">Editar Usuario</h2>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
+	<% } else { %>
+	<%- include('403.ejs') %>
+	<% } %>
 
-					<form method="POST" id="form-editar" action="/users/usuarios/">
-						<div class="form-group">
-							<label for="example-text-input" class="col-2 col-form-label">Nombres: </label>
-							<div class="col-10">
-								<input type="text" id="editNombreUsuario" name="editNombreUsuario">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="example-text-input" class="col-2 col-form-label">Apellidos: </label>
-							<div class="col-10">
-								<input type="text" id="editApellidoUsuario" name="editApellidoUsuario">
-							</div>
-						</div>                           
-						<div class="form-group">
-							<label for="exampleInputEmail1">Correo Electronico: </label>
-							<input type="email" class="form-control" name="editCorreoUsuario" id="editCorreoUsuario" aria-describedby="emailHelp">
-						</div>
-						<div class="form-group">
-							<label for="exampleInputPassword1">Password: </label>
-							<input type="password" class="form-control" name="editPasswordUsuario" id="editPasswordUsuario">
-						</div>
-						<div class="form-group">
-							<label for="exampleSelect1">Rol: </label>
-							<select class="form-control" id="editRolUsuario" name="editRolUsuario">
-								<option>Administrador</option>
-								<option>Profesor</option>
-								<option>Ayudante</option>
-								<option>Estudiante</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="example-text-input" class="col-2 col-form-label">Identificacion: </label>
-							<div class="col-10">
-								<p value="" id="editIdUsuario" name="editIdUsuario"> </p>
-							</div>
-						</div>    
-						<div class="form-group">
-							<label for="exampleSelect1">Carrera: </label>
-							<select class="form-control" id="editCarreraUsuario" name="editCarreraUsuario">
-								<option>No Aplica</option>
-								<option>Ingenieria en Automatizacion</option>
-								<option>Ingenieria en Ciencias Computacionales</option>
-								<option>Ingenieria en Telematica</option>
-								<option>Ingenieria Civil</option>
-								<option>Produccion Audiovisual</option>
-								<option>Hoteleria y Turismo</option>
-							</select>
-						</div>
-
-						<button type="submit" class="btn btn-primary">Guardar</button>
-					</form>
-
-
-				</div>
-			</div>
-		</div>
-
-		<% } else { %>
-		<%- include('403.ejs') %>
-		<% } %>
-
-	</div>
+</div>
 
 
 	<%- include('footer.ejs') %>
 
 	<script type="text/javascript" charset="utf-8">
+		function getBaseUrl(){
+			var getUrl = window.location;
+			var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+			return baseUrl;
+		}
 
 		$(document).ready(function() {
 
@@ -207,52 +138,82 @@
 					var registro = data[i];
 					$("#tablaDeCursos").append("<tr><td>"+registro.paralelo+"</td><td>"+registro.profesor+"</td><td>"+registro.estudiantes.length+"</td><td><button type='button' onclick='location.href="+'"../admin/courses/par/'+registro.paralelo+'"'+";' class='btn btn-default ver-curso' id='"+registro.paralelo+"'><span class='glyphicon glyphicon-th-list' aria-hidden='true'></span></button></td> <td><button type='button' onclick='location.href="+'"../admin/courses/par/'+registro.paralelo+'"'+";' class='btn btn-default editar-curso' id='"+registro.paralelo+"'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button></td><td><button type='button' class='btn btn-default eliminar-curso' id='"+registro.paralelo+"'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td>"+"</tr>")
 				}
-/*
-$(".editar-curso").click(function(){
-identif_actual = $($(this).parent().siblings()[0]).text();
-$("#form-editar").attr("action", "/users/usuarios/"+identif_actual);
-tipo_actual = $($(this).parent().siblings()[1]).text();
-nombres_actual = $($(this).parent().siblings()[2]).text();
-apellidos_actual = $($(this).parent().siblings()[3]).text();
-rol_actual = $($(this).parent().siblings()[4]).text();
-correo_actual = $($(this).parent().siblings()[5]).text();
-carrera_actual = $($(this).parent().siblings()[6]).text();
-password_actual = $($(this).parent().siblings()[7]).text();
 
-$("#editNombreUsuario").val(nombres_actual);
-$("#editApellidoUsuario").val(apellidos_actual);
-$("#editCorreoUsuario").val(correo_actual);
-$("#editPasswordUsuario").val(password_actual);
-$("#editRolUsuario").val(rol_actual);
-$("#editIdUsuario").text(identif_actual);
-$("#editCarreraUsuario").val(carrera_actual)
-$("#modalEditarUsuario").modal('show');
-});
-*/
+				$(".eliminar-curso").click(function(){
+					var aEliminar = this.id;
+					var url = "./courses/"+aEliminar;
+					$.ajax({
+						url: url,
+						type: 'DELETE',
+						success: function(result){
+						}
+					})
+					location.reload();
+				});
 
-$(".eliminar-curso").click(function(){
-	var aEliminar = this.id;
-	var url = "./courses/"+aEliminar;
-	$.ajax({
-		url: url,
-		type: 'DELETE',
-		success: function(result){
-		}
-	})
-	location.reload();
-});
-
-$('#example').DataTable();
-});
+				$('#example').DataTable();
+			});
 		});
 
 		$("#agregarCurso").click(function(){
 			$("#modalAgregarCurso").modal('show');
 		});
 
+		function agregar_a_lista(){
+			estudiante = $("#autocompletar-estudiante").val();
+			cedula = estudiante.split("-")[1];
+			$("#estudiantes-agregados").append('<div class="row"><li><div class="col-md-8"><input size=50 type="text" name="'+cedula+'" value="'+estudiante+'" readonly></div><div class="col-md-2"><button id="'+cedula+'" type=button onclick="eliminar_un_estudiante(event);" class="btn btn-danger" data-role="remove"> Eliminar </button></div></li></div>');
+			$("#autocompletar-estudiante").val("");
+		}
 
+		function eliminar_un_estudiante(event){
+			cadena = '"#'+event.target.id+'"';
+			var elemento = $("#"+event.target.id);
+			elemento.parent().parent().parent().remove();
 
+		}
 
+		$("#autocompletar-profesor").autocomplete({
+			source: function(req, resp){
+				$.ajax({
+					method: "GET",
+					url: getBaseUrl() + "admin/users/profesor",
+					dataType: "json",
+					data: {
+						term: req.term
+					},
+					success: function( data ) {
+						resp(data);
+					}
+				});
+			},
+			change: function(event,ui){
+				if (!ui.item){ 
+					$(this).val(''); 
+				}
+			}
+		});
+
+		$("#autocompletar-estudiante").autocomplete({
+			source: function(req, resp){
+				$.ajax({
+					method: "GET",
+					url: getBaseUrl() + "admin/users/estudiantes",
+					dataType: "json",
+					data: {
+						term: req.term
+					},
+					success: function( data ) {
+						resp(data);
+					}
+				});
+			},
+			change: function(event,ui){
+				if (!ui.item){ 
+					$(this).val(''); 
+				}
+			}
+		});
 	</script>
 </body>
 </html>
