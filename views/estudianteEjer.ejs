@@ -12,74 +12,68 @@
 		<!-- NO OLVIDARSE DE CAMBIAR A ESTUDIANTE -->
 		<% } else if (user.rol == "Estudiante") { %>
 
-		<h1 class = 'clr-light-blue align-center'>Ejercicios para practicar</h1>
+		<h1 class = 'align-center'>Ejercicios para practicar</h1>
 		<div class = 'col-md-offset-1 col-md-10'>
-			<h3 class = 'pt-50'>Seleccione el nivel de dificultad</h3>
-			<div class="form-group ">
-				<div class = 'row pt-15'>
-					<div class = 'col-md-3 col-xs-6'>
-						<label for="project-description">Dificultad</label>
+
+			<div class="alert alert-info mt-40" role="alert"> Recuerda que al hacer los ejercicios, debes usar los métodos stdin y stdout para leer o responder a la consola de Python</div>		
+			<hr>
+			<h4 >Seleccione el nivel de dificultad</h4>
+
+			<div name="myForm" role="form" class="form-inline">
+				<div class="form-group">
+					<label>Dificultad
 						<select class="form-control" id="selectNivelEjercicioEs" name="nivelEjerEstu">
 							<option value="Fácil">Fácil</option>
 							<option value="Medio">Medio</option>
 							<option value="Difícil">Difícil</option>
 						</select>
-					</div>
+					</label>
 				</div>
-				<div>
+				<a type="submit" class="btn common-btn seleccionar-ejercicio">Escoger ejercicio aleatorio</a>
+			</div>
 
-				</div>
-				<div class = 'row pt-10'>
-					<button type="submit" class="btn common-btn seleccionar-ejercicio">Buscar Ejercicio</button>
-				</div>
-			</div>    
+			<div id="exitoejercicio">
+			</div>
 
-			<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
-				<div id="exitoejercicio">
+			<div class = 'row'>
+				<div class = 'col-md-12'>
+					<h3 id="tituloEjer"></h3>
+					<h4>Descripción</h4>
+					<p id="desEjer" class = 'pt-10'></p>
+				</div>	
+			</div>
+			<div class = 'row'>
+				<div class = 'col-md-6'>
+					<h4>Formato de Entrada</h4>
+					<p id="formEntrada" class = 'pt-10'></p>
 				</div>
-				<!-- Tabs -->
-				<ul class="nav nav-tabs" role="tablist" id = 'curso-tabs'>
-					<li role="presentation" class="active"><a href="#problema" aria-controls="problema" role="tab" data-toggle="tab">Problema</a></li>
-					<li role="presentation"><a href="#envios" aria-controls="envios" role="tab" data-toggle="tab">Envíos</a></li>
-				</ul>
-				<!-- Paneles -->
-				<div class="tab-content mt-lg-20">
-					<div role="tabpanel" class="tab-pane fade in active" id="problema">
-						<div class = 'row'>
-						<h3 id="tituloEjer"></h3>
-						<h4><strong>Descripción</strong></h4>
-						<p id="desEjer" class = 'pt-10'></p>
-						<h4><strong>Datos de Entrada</strong></h4>
-						<p id="datosEntraEjer" class = 'pt-10'></p>
-						<h4><strong>Datos de Salida</strong></h4>
-						<p id="datosDeSalEjer" class = 'pt-10'></p>
-						</div>
-						<div class = 'row'>
-								<label class="control-label">Subir tu código como archivo</label>
-								<input id="input-4" name="input4[]" type="file" multiple class="file-loading ">
-						<div class = 'row pt-20'>
-							<div class = 'col-md-2'>
-								<a href="#" class = "btn common-btn">Probar código</a>
-							</div>
-							<div class = 'col-md-2'>
-								<a href="#" class = "btn common-btn" onclick="mensajeDeExito();">Enviar código</a>
-							</div>
-						</div>
-							
-						</div>
-
-					</div>
-					<div role="tabpanel" class="tab-pane fade" id="envios">
-						<div class = 'well'>
-							<div class = 'row pt-20 pb-20'>
-								<div class = 'align-center'>
-									No has realizado algún envío aun.
-								</div>
-							</div>
-						</div>
-					</div>
+				<div class = 'col-md-6'>
+					<h4>Formato de Salida</h4>
+					<p id="formSalida" class = 'pt-10'></p>
 				</div>
 			</div>
+			<hr>
+
+			<div class = 'row'>
+				<div class = 'col-md-12'>
+
+
+					<div name="myForm" role="form" class="form-inline">
+						<div class = 'form-group'>
+							<input  type = 'text' style = 'display: none;' name = 'idExer'  id = 'idExer'>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Sube tu archivo de Python para probar el código
+
+							</label>
+							<input id="input-4" name="input4[]" type="file" multiple class="file-loading ">
+						</div>
+						<a type="submit" class="btn common-btn seleccionar-ejercicio">Enviar código</a>
+					</div>
+				</div>
+
+			</div>
+
 
 		</div>
 
@@ -92,44 +86,44 @@
 
 	<%- include('footer.ejs') %>
 
-	<script type="text/javascript" charset="utf-8">
-		function shuffle(o){ //v1.0
-				    for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-				    return o;
-				};
+<script type="text/javascript" charset="utf-8">
+function shuffle(o){ //v1.0
+	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+		return o;
+};
 
-		$(document).ready(function() {
+$(document).ready(function() {
 
-			$(".seleccionar-ejercicio").click(function(){
+	$(".seleccionar-ejercicio").click(function(){
 
-				var nivel = $("#selectNivelEjercicioEs").val();
-				var url = "/student/practice/" + nivel;
+		var nivel = $("#selectNivelEjercicioEs").val();
+		var url = "/student/practice/" + nivel;
 
-				$.get(url, function(ejercicios){
-					var parsed = ejercicios;
-					var keyArray = []
-					
-					for(var x in ejercicios){
-						keyArray.push(parsed[x])
-					}
+		$.get(url, function(ejercicios){
+			var parsed = ejercicios;
+			var keyArray = []
 
-					keyArray = shuffle(keyArray);
+			for(var x in ejercicios){
+				keyArray.push(parsed[x])
+			}
 
-					console.log(keyArray);
+			keyArray = shuffle(keyArray);
 
-					$("#tituloEjer").text(keyArray[0].titulo);
-					$("#desEjer").text(keyArray[0].descripcion);
-					$("#datosEntraEjer").text(keyArray[0].datosEntrada);
-					$("#datosDeSalEjer").text(keyArray[0].datosSalida);
+			console.log(keyArray[0]._id);
+
+			$("#tituloEjer").text(keyArray[0].titulo);
+			$("#desEjer").text(keyArray[0].descripcion);
+			$("#formEntrada").text(keyArray[0].formEntrada);
+			$("#formSalida").text(keyArray[0].formSalida);
+			$('#idExer').val(keyArray[0]._id);
+
+		})
+	});
+
+});
 
 
-				})
-			});
-
-		});
-
-
-	</script>
+</script>
 
 
 </body>
