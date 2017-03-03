@@ -379,9 +379,37 @@ router.get('/practice/:id', function(req, res, next) {
 
 });
 
+function editEjercicioCont(req, res) {
+	var ejercicioEdit = req.params.id;
+	console.log(ejercicioEdit);
 
-router.post('/practice/new/', function(req, res, next){
+	Ejercicio.findOneAndUpdate(
+		{ _id: ejercicioEdit},
+		{titulo:          req.body.tituloNewEjer,
+			descripcion:     req.body.descNewEjer,
+			formEntrada: 	req.body.formEntrada,
+	   		formSalida: 	req.body.formSalida,
+			datosEntrada:    req.body.casoEntrada,
+			datosSalida:     req.body.casoSalida,
+			etiquetas:       req.body.tagsNewEjer,
+			nivelDificultad: req.body.nivelNewEjer},
+			function(err, numAffected){
+				if (err){
+					console.log(err.message);
+					}
+					//return res.send('Ejercicio modificado con exito');
+				}
+			);
+	
+	res.redirect("/admin/practice");
+}
 
+router.put('/practice/edit/:id', editEjercicioCont);
+
+router.post('/practice/new/:id?', function(req, res, next){
+	if(req.params.id) {
+		return editEjercicioCont(req, res);
+	}
 
 	var ejercicioNew = new Ejercicio({
 		titulo:          req.body.tituloNewEjer,
@@ -402,31 +430,7 @@ router.post('/practice/new/', function(req, res, next){
 	res.redirect("/admin/practice");
 });
 
-router.put('/practice/edit/:id', function(req, res) {
-	var ejercicioEdit = req.params.id;
-	console.log(ejercicioEdit);
 
-	Ejercicio.findOneAndUpdate(
-		{ _id: ejercicioEdit},
-		{titulo:          req.body.tituloNewEjer,
-			descripcion:     req.body.descNewEjer,
-			formEntrada: 	req.body.formEntrada,
-	   		formSalida: 	req.body.formSalida,
-			datosEntrada:    req.body.casoEntrada,
-			datosSalida:     req.body.casoSalida,
-			etiquetas:       req.body.tagsNewEjer,
-			nivelDificultad: req.body.nivelNewEjer},
-			{multi : false},
-			callback
-			)
-	function callback(err, numAffected){
-		if (err){
-			console.log(err.message);
-		}
-	}
-	res.redirect("/admin/practice");
-
-});
 
 router.delete('/practice/:id', function(req, res, next) {
 	var ejercicioDelete = req.params.id;
