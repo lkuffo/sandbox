@@ -7,7 +7,7 @@ var router = express.Router();
 
 /* Top 3 dado un curso */
 router.get('/', function(req, res, next) {
-    res.render('reporte', { user: req.user });
+    res.render('reportes', { user: req.user });
 });
 
 router.get('/cursos', function(req, res, next) {

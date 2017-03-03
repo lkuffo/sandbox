@@ -3,6 +3,7 @@
 <%- include('header.ejs') %>
 <body>
 	<%- include('navbar.ejs') %>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 	<div class = 'container pt-70 pb-20' id='reportes'>
 		<div class = 'row pt-20 pb-20'>
@@ -15,7 +16,7 @@
 							<div class="form-group row">
 								<label for="date-start" class="col-md-3 col-form-label">Desde:</label>
 								<div class="col-md-9">
-									<input class="form-control" type="date" value="2011-08-19" id="date-start">
+									<input class="form-control" type="date" value="2017-01-01" id="date-start">
 								</div>
 							</div>
 						</div>
@@ -23,18 +24,18 @@
 							<div class="form-group row">
 								<label for="date-finish" class="col-md-3 col-form-label">Hasta:</label>
 							    <div class="col-md-9">
-									<input class="form-control" type="date" value="2011-08-19" id="date-finish">
+									<input class="form-control" type="date" value="2017-03-03" id="date-finish">
 							    </div>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<button class="btn btn-primary inner">Generar</button>
+							<button class="btn btn-primary inner" id="generar-grafico-por-fecha">Generar</button>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-12" id="grafico-por-fecha" style="width: 500px; height: 500px;">
 							<!-- AQUI VA EL GRAFICO -->
 						</div>
 					</div>
@@ -45,27 +46,11 @@
 				<div class="container-fluid pt-20">
 					<div class="row">
 						<div class="col-md-12">
-							<div class="form-group row">
-					    		<label for="cursoSelect" class="col-md-2 col-form-label">Curso: </label>
-					    		<div class="col-md-9">
-						    		<select class="form-control" id="cursoSelect">
-										<option>Curso 1</option>
-										<option>Curso 2</option>
-										<option>Curso 3</option>
-										<option>Curso 4</option>
-										<option>Curso 5</option>
-								    </select>
-					    		</div>
-						  	</div>
+							<button class="btn btn-primary inner" id="generar-grafico-por-curso">Generar</button>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12">
-							<button class="btn btn-primary inner">Generar</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-12" id="grafico-por-curso" style="width: 500px; height: 500px;">
 							<!-- AQUI VA EL GRAFICO -->
 						</div>
 					</div>
@@ -73,8 +58,60 @@
 			</div>
 		</div>
 	</div>
-
 	<%- include('footer.ejs') %>
+
+	<script type="text/javascript" charset="utf-8">
+
+		$(document).ready(function() {
+
+		});
+
+		$("#generar-grafico-por-fecha").click(function(){
+			console.log("hola");
+			ini = $("#date-start").val();
+			ini = ini.split("-");
+			var initial =ini[1]+"/"+ini[2]+"/"+ini[0];
+			var i = new Date(initial).getTime();
+
+			fin = $("#date-finish").val();
+			fin = fin.split("-");
+			var final =fin[1]+"/"+fin[2]+"/"+fin[0];
+			var j = new Date(final).getTime();
+
+			$("#grafico-por-fecha").empty();
+			$.get("/reportes/"+i+"/"+j, function(raw_data){
+				var data = [
+					{
+						x: Object.keys(raw_data),
+						y: Object.values(raw_data),
+						type: 'scatter'
+					}
+				];
+				Plotly.newPlot('grafico-por-fecha', data);
+			});
+			
+		});
+
+		$("#generar-grafico-por-curso").click(function(){
+			$("#grafico-por-curso").empty();
+			$.get("/reportes/cursos", function(raw_data){
+				console.log(raw_data);
+				var data = [
+					{
+						x: Object.keys(raw_data),
+						y: Object.values(raw_data),
+						type: 'bar'
+					}
+				];
+				Plotly.newPlot('grafico-por-curso', data);
+			});
+			
+		});
+
+
+
+	</script>
+
 
 </body>
 </html>
