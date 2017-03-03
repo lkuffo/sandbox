@@ -65,3 +65,10 @@ footer{
     color: #01A4A4;
     transition: all 0.25s;
 }
+#reportes .form-control{
+    font-size: 12px;
+}
+.inner{
+    display: block !important;
+    margin: 0 auto;
+}
