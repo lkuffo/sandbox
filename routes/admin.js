@@ -419,7 +419,7 @@ router.put('/practice/edit/:id', function(req, res) {
 
 });
 
-router.delete('practice/:id', function(req, res, next) {
+router.delete('/practice/:id', function(req, res, next) {
 	var ejercicioDelete = req.params.id;
 	console.log(ejercicioDelete);
 	Ejercicio.find({ _id : ejercicioDelete}).remove().exec();
