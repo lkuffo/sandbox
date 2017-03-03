@@ -5,6 +5,7 @@ var router = express.Router();
 var Ejercicio = require('../models/ejercicio');
 var PythonShell = require('python-shell');
 var request = require("request")
+var fs = require('fs')
 
 router.get('/myprofile',
 	function(req, res, next){
@@ -31,54 +32,76 @@ router.get('/practice/:id', function(req, res){
 	//res.redirect('estudianteEjer');
 });
 
-router.post('/practice', function(req, res, next){
-	console.log(req.body);
+router.post('/practice/solve/:id', function(req, res, next){
+	
+	var url = "http://localhost:3000/admin/practice/unique/"+req.params.id;
 
-	ide = req.body.idExer;
+	var score		 = 0;
+	var sendBy		 = req.user.identif;
 
-	var result = "http://localhost:3000/admin/practice/unique/"+ide;
+	
+	var fileName	= req.files.solution.name;
+	var targetPath 	='./uploads/exer-st/'+fileName;
+	var tempPath	= req.files.archivo.path;
+	var extension 	= req.files.archivo.type;
 
-	request({url: result,json: true}, function (error, response, item) {
+	var pyshell 	= new PythonShell(targetPath);
+	var result;
+
+	
+	request({url: url,json: true}, function (error, response, item) {
 		if(error){console.log(error)}
-	    if (!error && response.statusCode === 200) {
-	    	console.log(item);
-	    	res_e = item;
-	    	expected_answer = res_e.datosSalida;
-	    	expected_input = res_e.datosEntrada;
+		if (!error && response.statusCode === 200) {
+			var rule = item;
 
-	        let file = req.files;
-	        var pyshell = new PythonShell(file);
+			//Probar el codigo
 
-	        var output = '';
-			pyshell.stdout.on('data', function (data) {
-				console.log(data);
+			fs.rename(tempPath,targetPath,function(err){
+				if(err){console.log(error)}
+				else{
+				fs.unlink(tmp_path,function(err){
+					pyshell.send(rule.datosSalida);
+					pyshell.on('message', function (message) {
+						result 	= message;
+					});
+				});}
 			});
 
-	        pyshell.send(expected_input);
+			//Verificacion si la salida es los datos de prueba de salida.
+			if (rule.datosSalida == result){
+				//Verificacion si es que ya no tiene el ejercicio resuelto
+				Estudiante.findOne({"resueltos.id" : req.params.id}, function(err, resuelto){
+					if (err){res.send(err);}
+					if(!resuelto){
+						Estudiante.update({identif:user.identif},{
+							$push:{"resueltos":{id:req.params.id, fecha: new Date()}}
+						});
+						if (item.nivelDificultad == 'Fácil'){
+							score = 5;
+						}else if (item.nivelDificultad == 'Medio'){
+							score = 10;
+						}else{
+							score = 15;
+						}
 
-	        if(output == expected_answer){
-	        	console.log("ENTER");
-	        }else{
-	        	console.log("DONT");
-	        }
+						Estudiante.update({identif:user.identif},{
+							puntaje:puntaje+score
+						});
+						console.log("resuelto por 1 vez");
+					}else{
+						console.log("ya lo resolvio");
+					}
+				});
+				
+			}else{
+				console.log("NO FUNCIONA")
+			}
+		}	
 
+	});
 
-	    }
-	})
+	res.redirect('/student/practice');
 
-	/*var options = {
-		mode: 'text',
-		pythonPath: 'path/to/python',
-		pythonOptions: ['-u'],
-		scriptPath: 'path/to/my/scripts',
-		args: ['value1', 'value2', 'value3']
-	};
-
-	PythonShell.run('my_script.py', options, function (err, results) {
-		if (err) throw err;
-			// results is an array consisting of messages collected during execution
-			console.log('results: %j', results);
-		});*/
 });
 
 

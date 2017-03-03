@@ -56,15 +56,14 @@
 
 			<div class = 'row'>
 				<div class = 'col-md-12'>
-					<form action="/student/practice" method="post"  class="form-inline" encType="multipart/form-data">
+					<form id = 'sendForm'>
 						<div class="form-group">
 							<input  type = 'text' style = 'display: none;' name = 'idExer'  id = 'idExer'>
 							<label class="control-label">Sube tu archivo de Python para probar el código
-
 							</label>
-							<input id="solution" name="solution" type="file" multiple class="file-loading ">
+							<input  type="file" name="solution" id="solution">
 						</div>
-						<button type="submit" class="btn common-btn ">Enviar código</button>
+						<input type="submit" class="btn common-btn ">Enviar código</input>
 					</form>
 				</div>
 
@@ -111,9 +110,25 @@ $(document).ready(function() {
 			$("#formSalida").text(keyArray[0].formSalida);
 			$("#idExer").val(keyArray[0]._id);
 
-			console.log($("#idExer").val());
 		})
 	});
+
+	$('#sendForm').submit(function(e){
+		var form = document.querySelector('#sendForm');
+ 		var formData = new FormData(form);
+
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url: '/student/practice/solve/'+ $("#idExer").val(),
+            data: formData,
+            processData:false,
+            contentType:false,
+            success: function (data) {
+           
+       		},
+        });
+    });
 
 });
 

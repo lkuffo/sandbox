@@ -7,7 +7,7 @@ var schema = new Schema({
     matricula: String,
     insignia: String,
     puntaje: Number,
-    ej_resueltos: [{
+    resueltos: [{
         id: String,
         fecha: String
     }]
