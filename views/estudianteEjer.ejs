@@ -59,6 +59,9 @@
 
 
 					<div name="myForm" role="form" class="form-inline">
+						<div class = 'form-group'>
+							<input  type = 'text' style = 'display: none;' name = 'idExer'  id = 'idExer'>
+						</div>
 						<div class="form-group">
 							<label class="control-label">Sube tu archivo de Python para probar el código
 
@@ -83,7 +86,7 @@
 
 	<%- include('footer.ejs') %>
 
-	<script type="text/javascript" charset="utf-8">
+<script type="text/javascript" charset="utf-8">
 function shuffle(o){ //v1.0
 	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
 		return o;
@@ -106,11 +109,13 @@ $(document).ready(function() {
 
 			keyArray = shuffle(keyArray);
 
+			console.log(keyArray[0]._id);
+
 			$("#tituloEjer").text(keyArray[0].titulo);
 			$("#desEjer").text(keyArray[0].descripcion);
 			$("#formEntrada").text(keyArray[0].formEntrada);
 			$("#formSalida").text(keyArray[0].formSalida);
-
+			$('#idExer').val(keyArray[0]._id);
 
 		})
 	});
