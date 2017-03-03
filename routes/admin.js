@@ -409,14 +409,14 @@ router.put('/practice/edit/:id', function(req, res) {
 			datosSalida:     req.body.casoSalida,
 			etiquetas:       req.body.tagsNewEjer,
 			nivelDificultad: req.body.nivelNewEjer},
-			{multi : false},
-			callback
-			)
-	function callback(err, numAffected){
-		if (err){
-			console.log(err.message);
-		}
-	}
+			function(err, numAffected){
+				if (err){
+					console.log(err.message);
+					}
+					return res.send('Ejercicio modificado con exito');
+				}
+			);
+	
 	res.redirect("/admin/practice");
 
 });
