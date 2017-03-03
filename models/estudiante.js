@@ -9,7 +9,7 @@ var schema = new Schema({
     puntaje: Number,
     ej_resueltos: [{
         id: String,
-        fecha_res: Number
+        fecha: String
     }]
 },
 {

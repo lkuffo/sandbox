@@ -43,5 +43,37 @@ router.get('/cursos', function(req, res, next) {
 	});
 });
 
+router.get('/:ini/:fin', function(req, res, next) {
+    var aDevolver = {}
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    Estudiante.find(function(err, estudiantes){
+        if (err){
+            res.send(err)
+        }
+        for (var j = 0; j < estudiantes.length; j++){
+            estud = estudiantes[j];
+            ejercicios = estud.ej_resueltos;
+            for (var k = 0; k < ejercicios.length; k++){
+                var fecha_res = ejercicios[k].fecha;
+                if (fecha_res > req.params.ini && fecha_res < req.params.fin){
+                    var a = new Date(Number(fecha_res));
+                    console.log(a);
+                    var year = a.getFullYear();
+                    var mes = months[a.getMonth()];
+                    var dia = a.getDate();
+                    var final = dia +"-"+ mes+"-"+ year
+                    if (final in aDevolver){
+                        aDevolver[final] += 1;
+                    }else{
+                        aDevolver[final] = 1;
+                    }    
+                }
+   
+            }
+        }            
+        res.json(aDevolver);    
+    });
+});
+
 module.exports = router;
 
