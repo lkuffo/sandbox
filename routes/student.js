@@ -96,26 +96,32 @@ router.post('/practice/:id', cors(), function(req, res, next){
 												}else{
 													score = 15;
 												}
-
-												Estudiante.update({matricula:req.user.identif},{
-													puntaje:puntaje+score
+												Estudiante.find().where('matricula').equals(req.user.identif).exec(function(err, found){
+													puntos_actuales = found.puntaje;
+													puntos_nuevos = puntos_actuales + score;
+													Estudiante.update({matricula:user.identif},{
+														puntaje: puntos_nuevos
+													});
 												});
-												res.redirect("/student/success");
+												console.log("resuelto por 1 vez");
+												return  res.redirect("http://localhost:3000/student/success");
+																								
 											}else{
 												console.log("ya lo resolvio");
-												res.redirect("/student/success");
+												return  res.redirect("http://localhost:3000/student/success");
 											}
 										});
 
 									}else{
 										console.log("NO FUNCIONA");
-										res.redirect("/student/failure");
+										return  res.redirect("/http://localhost:3000student/failure");
 									}
 								});
 
 								pyshell.end(function (err) {
-									if (err) throw err;
-									
+									if (err){
+										console.log("NO FUNCIONA");
+										return  res.redirect("/http://localhost:3000student/failure");}
 								});
 							});
 
