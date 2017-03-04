@@ -31,5 +31,12 @@ router.get('/:id', function(req, res, next) {
         });
 });
 
+router.get('/n/:id', function(req,res,next){
+    Estudiante.find().where('matricula').equals(req.params.id).exec(function(err, found){
+		res.json(found);
+	});
+
+});
+
 
 module.exports = router;
