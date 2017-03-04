@@ -13,18 +13,28 @@
 					<h3>Nombres</h3>
 					<%- user.nombres + ' ' + user.apellidos %>
 					<h3>Puntaje</h3>
-
+					<div id="puntaje-profile"> </div>
 					<h3>Insignias</h3>
-
+					<div id="insignia-profile"> </div>
 					<h3>Ejercicios completados</h3>
+					<div id="ejercicios-profile"> </div>
 				</div>
 			</div>
-			
-
-
 		<% } %>
 	</div>
 	<%- include('footer.ejs') %>
+	<script>
 
+		$(document).ready(function(){
+			cedula = <%= user.identif %>;
+			console.log(cedula);
+			$.get("/admin/topthree/n/"+cedula, function(data){
+				$("#puntaje-profile").append("<p>"+data[0].puntaje+"</p>");
+				$("#insignia-profile").append("<p>"+data[0].insignia+"</p>");
+				$("#ejercicios-profile").append("<p>"+data[0].ej_resueltos.length+"</p>");
+			})
+		})
+
+	</script>
 </body>
 </html>
