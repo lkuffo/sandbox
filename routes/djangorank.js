@@ -3,7 +3,6 @@ var passport = require('passport');
 var User = require('../models/User');
 var Curso = require('../models/curso');
 var Estudiante = require('../models/estudiante');
-var User = require("../models/User");
 var router = express.Router();
 
 router.use(function(req, res, next) {

@@ -22,6 +22,13 @@ var router = express.Router();
 var nodemailer = require("nodemailer")
 var transport = nodemailer.createTransport('smtps://kufgal%40gmail.com:galoGALOkuffoKUFFO22@smtp.gmail.com');
 
+
+router.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //////////////////////////
 // RUTEO PARA USUARIOS
 //////////////////////////

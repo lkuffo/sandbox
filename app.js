@@ -2,6 +2,9 @@ var express = require('express');
 var path = require('path');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
+var cors = require('cors');
+var multipart = require('connect-multiparty')
+
 
 var User = require('./models/User');
 
@@ -54,8 +57,11 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(cors());
+app.use(multipart()) ;
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
+app.use(require('body-parser').json());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 

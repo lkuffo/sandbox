@@ -56,7 +56,7 @@
 
 			<div class = 'row'>
 				<div class = 'col-md-12'>
-					<form id = 'sendForm'>
+					<form id = 'sendForm' action='#' enctype="multipart/form-data">
 						<div class="form-group">
 							<input  type = 'text' style = 'display: none;' name = 'idExer'  id = 'idExer'>
 							<label class="control-label">Sube tu archivo de Python para probar el código
@@ -66,7 +66,6 @@
 						<input type="submit" class="btn common-btn ">Enviar código</input>
 					</form>
 				</div>
-
 			</div>
 
 
@@ -77,6 +76,8 @@
 		<% } %>
 
 	</div>
+
+	
 
 
 	<%- include('footer.ejs') %>
@@ -114,20 +115,23 @@ $(document).ready(function() {
 	});
 
 	$('#sendForm').submit(function(e){
+		 e.preventDefault();
 		var form = document.querySelector('#sendForm');
- 		var formData = new FormData(form);
+ 		var formData = new FormData(form);      
 
-        e.preventDefault();
         $.ajax({
+        	crossOrigin: true,
             type:'POST',
-            url: '/student/practice/solve/'+ $("#idExer").val(),
-            data: formData,
+            url: '/student/practice/'+ $("#idExer").val(),
+            dataType: "JSON",
+            data: new FormData(this),
+            contentType: false,
             processData:false,
-            contentType:false,
-            success: function (data) {
-           
-       		},
+       		error: function(jqXHR, textStatus, errorMessage) {
+		   		
+			}
         });
+       
     });
 
 });
