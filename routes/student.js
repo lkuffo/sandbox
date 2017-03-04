@@ -77,7 +77,7 @@ router.post('/practice/:id', cors(), function(req, res, next){
 										Estudiante.findOne({"resueltos.id" : req.params.id}, function(err, resuelto){
 											if (err){res.send(err);}
 											if(!resuelto){
-												Estudiante.update({identif:user.identif},{
+												Estudiante.update({matricula:user.identif},{
 													$push:{"resueltos":{id:req.params.id, fecha: new Date()}}
 												});
 												if (item.nivelDificultad == 'Fácil'){
@@ -87,10 +87,14 @@ router.post('/practice/:id', cors(), function(req, res, next){
 												}else{
 													score = 15;
 												}
-
-												Estudiante.update({identif:user.identif},{
-													puntaje:puntaje+score
+												Estudiante.find().where('matricula').equals(user.identif).exec(function(err, found){
+													puntos_actuales = found.puntaje;
+													puntos_nuevos = puntos_actuales + score;
+													Estudiante.update({matricula:user.identif},{
+														puntaje: puntos_nuevos;
+													});
 												});
+
 												console.log("resuelto por 1 vez");
 											}else{
 												console.log("ya lo resolvio");
