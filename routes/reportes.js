@@ -52,6 +52,7 @@ router.get('/:ini/:fin', function(req, res, next) {
         }
         for (var j = 0; j < estudiantes.length; j++){
             estud = estudiantes[j];
+            console.log(estud);
             ejercicios = estud.ej_resueltos;
             for (var k = 0; k < ejercicios.length; k++){
                 var fecha_res = ejercicios[k].fecha;
