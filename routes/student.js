@@ -22,6 +22,16 @@ router.get('/myprofile',
 		res.render('myprofile', { user: req.user });
 	});
 
+router.get('/success',
+	function(req, res, next){
+		res.render('ejercicioExitoso', { user: req.user });
+	});
+
+
+router.get('/failure',
+	function(req, res, next){
+		res.render('ejercicioErroneo', { user: req.user });
+	});
 
 
 router.get('/practice', function(req, res, next) {
@@ -55,7 +65,6 @@ router.post('/practice/:id', cors(), function(req, res, next){
 	var extension 	= req.files.solution.type;
 
 	var result = '';
-	
 
 	request({url: url,json: true}, function (error, response, item) {
 		if(error){console.log(error)}
@@ -77,7 +86,7 @@ router.post('/practice/:id', cors(), function(req, res, next){
 										Estudiante.findOne({"resueltos.id" : req.params.id}, function(err, resuelto){
 											if (err){res.send(err);}
 											if(!resuelto){
-												Estudiante.update({identif:user.identif},{
+												Estudiante.update({matricula:req.user.identif},{
 													$push:{"resueltos":{id:req.params.id, fecha: new Date()}}
 												});
 												if (item.nivelDificultad == 'Fácil'){
@@ -88,17 +97,19 @@ router.post('/practice/:id', cors(), function(req, res, next){
 													score = 15;
 												}
 
-												Estudiante.update({identif:user.identif},{
+												Estudiante.update({matricula:req.user.identif},{
 													puntaje:puntaje+score
 												});
-												console.log("resuelto por 1 vez");
+												res.redirect("/student/success");
 											}else{
 												console.log("ya lo resolvio");
+												res.redirect("/student/success");
 											}
 										});
 
 									}else{
-										console.log("NO FUNCIONA")
+										console.log("NO FUNCIONA");
+										res.redirect("/student/failure");
 									}
 								});
 
